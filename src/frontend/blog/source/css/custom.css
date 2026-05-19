@@ -68,10 +68,10 @@
 /* ----- 导航栏主题色覆盖 ----- */
 /* 所有页面：导航栏透明 + 毛玻璃 */
 .navbar {
-  background-color: rgba(30, 144, 255, 0.2) !important;
+  background-color: rgba(30, 144, 255, 0.08) !important;
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.15);
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.1);
   transition: all 0.4s ease;
 }
 
@@ -100,7 +100,7 @@
 
 /* 导航栏毛玻璃效果 */
 .navbar.ground-glass {
-  background-color: rgba(30, 144, 255, 0.2) !important;
+  background-color: rgba(30, 144, 255, 0.08) !important;
 }
 
 /* ----- 首页 Banner 毛玻璃效果 ----- */

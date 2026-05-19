@@ -1,0 +1,520 @@
+/* ============================================
+   Blog Admin - 管理面板样式
+   所有 class 使用 admin- 前缀以避免主题冲突
+   ============================================ */
+
+/* ----- 管理工具栏按钮 ----- */
+#admin-toolbar-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1E90FF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  z-index: 9980;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.4);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: scale(0);
+}
+#admin-toolbar-btn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+#admin-toolbar-btn:hover {
+  background: #0077DD;
+  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.5);
+  transform: scale(1.08);
+}
+#admin-toolbar-btn:active {
+  transform: scale(0.95);
+}
+
+/* ----- 管理面板 ----- */
+#admin-panel {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  z-index: 9985;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  overflow: hidden;
+  display: none;
+  animation: admin-panel-in 0.2s ease;
+}
+#admin-panel.open {
+  display: block;
+}
+@keyframes admin-panel-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#admin-panel .admin-panel-header {
+  padding: 12px 16px;
+  background: #1E90FF;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#admin-panel .admin-panel-header .admin-logout-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+#admin-panel .admin-panel-header .admin-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+#admin-panel .admin-panel-body {
+  padding: 4px 0;
+}
+#admin-panel .admin-panel-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.15s;
+}
+#admin-panel .admin-panel-item:hover {
+  background: #f0f6ff;
+}
+#admin-panel .admin-panel-item.danger {
+  color: #e74c3c;
+}
+#admin-panel .admin-panel-item.danger:hover {
+  background: #fff0f0;
+}
+#admin-panel .admin-panel-divider {
+  height: 1px;
+  background: #eee;
+  margin: 4px 0;
+}
+
+/* 构建状态指示器 */
+#admin-build-status {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9995;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+  animation: admin-panel-in 0.2s ease;
+}
+#admin-build-status.show {
+  display: block;
+}
+
+/* ----- 模态框遮罩 ----- */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: admin-fade-in 0.2s ease;
+}
+@keyframes admin-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ----- 登录对话框 ----- */
+.admin-login-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.admin-login-dialog h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #333;
+}
+.admin-login-dialog .admin-login-subtitle {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 20px;
+}
+.admin-login-dialog .admin-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.admin-login-dialog .admin-input:focus {
+  border-color: #1E90FF;
+}
+.admin-login-dialog .admin-error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 8px;
+  min-height: 18px;
+}
+.admin-login-dialog .admin-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #1E90FF;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.admin-login-dialog .admin-btn:hover {
+  background: #0077DD;
+}
+.admin-login-dialog .admin-btn:disabled {
+  background: #a0c8f0;
+  cursor: not-allowed;
+}
+
+/* ----- 编辑模态框 ----- */
+.admin-editor-dialog {
+  background: #fff;
+  border-radius: 12px;
+  width: 90vw;
+  height: 85vh;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.admin-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.admin-editor-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+.admin-editor-header .admin-btn-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.admin-editor-header .admin-btn-close:hover {
+  background: #eee;
+  color: #333;
+}
+.admin-editor-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.admin-editor-body.split {
+  display: flex;
+}
+.admin-editor-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.admin-editor-pane + .admin-editor-pane {
+  border-left: 1px solid #eee;
+}
+.admin-pane-label {
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+.admin-editor-textarea {
+  flex: 1;
+  border: none;
+  resize: none;
+  padding: 12px;
+  font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  background: #fcfcfc;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+.admin-editor-preview {
+  flex: 1;
+  padding: 12px 20px;
+  overflow-y: auto;
+}
+.admin-editor-preview h1 { font-size: 1.75em; margin: 0.5em 0; }
+.admin-editor-preview h2 { font-size: 1.5em; margin: 0.5em 0; }
+.admin-editor-preview h3 { font-size: 1.25em; margin: 0.5em 0; }
+.admin-editor-preview p { margin: 0.5em 0; line-height: 1.7; }
+.admin-editor-preview code {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.admin-editor-preview pre {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.admin-editor-preview pre code {
+  background: none;
+  padding: 0;
+}
+.admin-editor-preview blockquote {
+  border-left: 4px solid #1E90FF;
+  padding-left: 16px;
+  margin-left: 0;
+  color: #666;
+}
+.admin-editor-preview img { max-width: 100%; }
+
+/* Front-matter 编辑区 */
+.admin-fm-section {
+  border-bottom: 1px solid #eee;
+  padding: 12px 20px;
+  background: #fcfcfc;
+  flex-shrink: 0;
+}
+.admin-fm-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+.admin-fm-row:last-child {
+  margin-bottom: 0;
+}
+.admin-fm-label {
+  font-size: 13px;
+  color: #666;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+.admin-fm-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+.admin-fm-input:focus {
+  border-color: #1E90FF;
+}
+
+.admin-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+  flex-shrink: 0;
+  background: #f8f9fa;
+}
+.admin-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-btn-primary {
+  background: #1E90FF;
+  color: #fff;
+}
+.admin-btn-primary:hover {
+  background: #0077DD;
+}
+.admin-btn-cancel {
+  background: #f0f0f0;
+  color: #666;
+}
+.admin-btn-cancel:hover {
+  background: #e0e0e0;
+}
+.admin-btn-danger {
+  background: #e74c3c;
+  color: #fff;
+}
+.admin-btn-danger:hover {
+  background: #c0392b;
+}
+
+/* ----- 背景图编辑 ----- */
+.admin-banner-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 480px;
+  max-width: 90vw;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+.admin-banner-dialog h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+}
+.admin-banner-preview {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #eee;
+}
+.admin-banner-current {
+  font-size: 13px;
+  color: #999;
+  word-break: break-all;
+  margin-bottom: 12px;
+}
+.admin-upload-zone {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-upload-zone:hover {
+  border-color: #1E90FF;
+  color: #1E90FF;
+}
+.admin-upload-zone.dragover {
+  border-color: #1E90FF;
+  background: #f0f6ff;
+}
+.admin-banner-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ----- Toast 提示 ----- */
+#admin-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  z-index: 9999;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #fff;
+  background: #333;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  max-width: 80vw;
+}
+#admin-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+#admin-toast.success {
+  background: #27ae60;
+}
+#admin-toast.error {
+  background: #e74c3c;
+}
+
+/* ----- 确认对话框 ----- */
+.admin-confirm-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.admin-confirm-dialog p {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: #333;
+}
+.admin-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ----- 响应式调整 ----- */
+@media (max-width: 768px) {
+  .admin-editor-dialog {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    max-width: none;
+  }
+  .admin-editor-body.split {
+    flex-direction: column;
+  }
+  .admin-editor-pane + .admin-editor-pane {
+    border-left: none;
+    border-top: 1px solid #eee;
+  }
+  #admin-toolbar-btn {
+    bottom: 16px;
+    right: 16px;
+  }
+  #admin-panel {
+    bottom: 72px;
+    right: 16px;
+  }
+}

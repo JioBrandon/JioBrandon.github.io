@@ -17,6 +17,10 @@
 
     if (!isHomePage) return;
 
+    // 锁定页面滚动，隐藏滚动条
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
     // 创建 Loading 遮罩层
     var loadingScreen = document.createElement('div');
     loadingScreen.id = 'loading-screen';
@@ -110,6 +114,9 @@
         if (loadingScreen.parentNode) {
           loadingScreen.parentNode.removeChild(loadingScreen);
         }
+        // 恢复页面滚动
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
       }, 500);
     }
 
