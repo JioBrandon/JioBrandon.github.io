@@ -17,6 +17,18 @@
 
     if (!isHomePage) return;
 
+    // 计算滚动条宽度并补偿，避免锁定/解锁时页面元素左移
+    // 如果浏览器支持 scrollbar-gutter: stable（已通过 CSS 设置），无需此补偿
+    var supportsScrollbarGutter = CSS.supports && CSS.supports('scrollbar-gutter', 'stable');
+    var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0 && !supportsScrollbarGutter) {
+      document.body.style.paddingRight = scrollbarWidth + 'px';
+    }
+
+    // 锁定页面滚动，隐藏滚动条
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
     // 创建 Loading 遮罩层
     var loadingScreen = document.createElement('div');
     loadingScreen.id = 'loading-screen';
@@ -106,11 +118,19 @@
         bannerText.style.opacity = '1';
       }
 
-      setTimeout(function() {
+      // 使用 transitionend 事件确保 fade-out 动画完成后再移除元素
+      //（Windows 上 setTimeout 可能在 transition 完成前触发，导致渐隐效果被截断）
+      loadingScreen.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName !== 'opacity') return;
+        loadingScreen.removeEventListener('transitionend', handler);
         if (loadingScreen.parentNode) {
           loadingScreen.parentNode.removeChild(loadingScreen);
         }
-      }, 500);
+        // 恢复页面滚动
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      });
     }
 
     // 延迟 100ms 开始打字
@@ -125,12 +145,12 @@
     // ----- 首页 Loading 动画 -----
     initLoadingScreen();
 
-    // ----- 导航栏滚动效果（首页滚动到内容区后增强背景） -----
+    // ----- 导航栏滚动效果 -----
+    // 所有页面：Banner 背景图区域透明，滚动到内容区后显示实色 #1E90FF
     var navbar = document.querySelector('.navbar');
     var banner = document.querySelector('.header-inner');
-    var isHomePage = banner && banner.style.height === '100vh';
 
-    if (navbar && isHomePage) {
+    if (navbar && banner) {
       var bannerHeight = banner.offsetHeight || window.innerHeight;
 
       function updateNavbar() {
@@ -178,6 +198,46 @@
     // ----- 欢迎语控制台输出 -----
     console.log('%c☕ WELCOME TO JIO\'S BLOG', 'color: #1E90FF; font-size: 20px; font-weight: bold;');
     console.log('%c🚀 LLM / Agent 开发探索 & 游戏日常记录', 'color: #666; font-size: 12px;');
+
+    // ----- 滚动条智能显示/隐藏 -----
+    var scrollbarTimer = null;
+    var SCROLLBAR_HIDE_DELAY = 1000;
+    var SCROLLBAR_EDGE = 20; // 鼠标距右边缘多少像素内显示滚动条
+
+    function showScrollbar() {
+      document.documentElement.classList.add('scrollbar-visible');
+      if (scrollbarTimer) {
+        clearTimeout(scrollbarTimer);
+        scrollbarTimer = null;
+      }
+    }
+
+    function hideScrollbarAfterDelay() {
+      if (scrollbarTimer) clearTimeout(scrollbarTimer);
+      scrollbarTimer = setTimeout(function() {
+        document.documentElement.classList.remove('scrollbar-visible');
+      }, SCROLLBAR_HIDE_DELAY);
+    }
+
+    // 滚动时显示滚动条
+    window.addEventListener('scroll', function() {
+      showScrollbar();
+      hideScrollbarAfterDelay();
+    }, { passive: true });
+
+    // 鼠标靠近右侧边缘时显示滚动条
+    document.addEventListener('mousemove', function(e) {
+      if (e.clientX >= window.innerWidth - SCROLLBAR_EDGE) {
+        showScrollbar();
+      } else {
+        hideScrollbarAfterDelay();
+      }
+    }, { passive: true });
+
+    // 鼠标离开页面时隐藏滚动条
+    document.addEventListener('mouseleave', function() {
+      hideScrollbarAfterDelay();
+    });
 
   });
 })();

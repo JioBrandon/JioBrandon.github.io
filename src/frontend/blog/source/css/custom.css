@@ -66,13 +66,11 @@
 }
 
 /* ----- 导航栏主题色覆盖 ----- */
-/* 所有页面：导航栏透明 + 毛玻璃 */
+/* 所有页面：导航栏透明（无毛玻璃效果） */
 .navbar {
-  background-color: rgba(30, 144, 255, 0.2) !important;
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.15);
-  transition: all 0.4s ease;
+  background-color: rgba(30, 144, 255, 0.08) !important;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* 导航栏文字 - 添加文字阴影确保在任何背景上可读 */
@@ -92,15 +90,8 @@
 
 /* 滚动到内容区后增强导航栏背景（首页通过 JS 添加 .scrolled） */
 .navbar.scrolled {
-  background-color: rgba(30, 144, 255, 0.9) !important;
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: #1E90FF !important;
   box-shadow: 0 2px 16px rgba(30, 144, 255, 0.3);
-}
-
-/* 导航栏毛玻璃效果 */
-.navbar.ground-glass {
-  background-color: rgba(30, 144, 255, 0.2) !important;
 }
 
 /* ----- 首页 Banner 毛玻璃效果 ----- */
@@ -158,32 +149,57 @@
   white-space: nowrap;
 }
 
-/* ----- 滚动条美化 ----- */
+/* ----- 防止布局偏移：为滚动条预留空间（macOS 覆盖式滚动条不受影响） ----- */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* ----- 滚动条美化（默认透明，滚动/悬停时渐显） ----- */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E90FF;
+  background: transparent;
   border-radius: 4px;
+  transition: background 0.4s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
+/* 滚动条可见状态 */
+html.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0.6);
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #1E90FF;
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb:hover {
   background: #1873CC;
 }
 
 /* 暗色模式滚动条 */
-[data-theme="dark"] ::-webkit-scrollbar-track {
-  background: #2c3e50;
+[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(44, 62, 80, 0.6);
 }
 
-[data-theme="dark"] ::-webkit-scrollbar-thumb {
+[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-thumb {
   background: #4a9eff;
+}
+
+/* Firefox 滚动条样式 */
+html {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+html.scrollbar-visible {
+  scrollbar-color: #1E90FF transparent;
 }
 
 /* ----- 文章卡片美化 ----- */
@@ -234,10 +250,10 @@
   transform: translateY(-2px);
 }
 
-/* ----- 关于页面头像边框 ----- */
+/* ----- 关于页面头像 ----- */
 .about-avatar {
-  border: 4px solid #1E90FF;
-  box-shadow: 0 4px 20px rgba(30, 144, 255, 0.3);
+  border: none;
+  box-shadow: none;
 }
 
 /* ----- 代码块美化 ----- */
@@ -277,6 +293,56 @@ a {
   border-left: 4px solid #1E90FF;
   background-color: rgba(30, 144, 255, 0.05);
   border-radius: 0 8px 8px 0;
+}
+
+/* ----- 个人标签页 ----- */
+.personal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.personal-tag-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 140px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1E90FF 0%, #1873CC 100%);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.25);
+}
+
+.personal-tag-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(30, 144, 255, 0.4);
+  color: #fff;
+  text-decoration: none;
+}
+
+.personal-tag-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.personal-tag-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.personal-tag-desc {
+  font-size: 0.75rem;
+  margin-top: 6px;
+  opacity: 0.85;
+  text-align: center;
+  padding: 0 8px;
 }
 
 /* ----- 目录导航美化（左侧 TOC） ----- */
