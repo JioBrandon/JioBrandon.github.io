@@ -70,7 +70,7 @@
 .navbar {
   background-color: rgba(30, 144, 255, 0.08) !important;
   box-shadow: 0 2px 12px rgba(30, 144, 255, 0.1);
-  transition: all 0.4s ease;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* 导航栏文字 - 添加文字阴影确保在任何背景上可读 */
@@ -147,6 +147,11 @@
   color: #1a1a2e;
   letter-spacing: 0.12em;
   white-space: nowrap;
+}
+
+/* ----- 防止布局偏移：为滚动条预留空间（macOS 覆盖式滚动条不受影响） ----- */
+html {
+  scrollbar-gutter: stable;
 }
 
 /* ----- 滚动条美化（默认透明，滚动/悬停时渐显） ----- */

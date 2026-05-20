@@ -183,7 +183,7 @@ footer:
     police_code: 12345678
     police_icon: /img/police_beian.png
 index:
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 100
   banner_mask_alpha: 0.3
   slogan:
@@ -206,7 +206,7 @@ index:
     enable: true
     icon: iconfont icon-top
 post:
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 70
   banner_mask_alpha: 0.3
   default_index_img: null
@@ -376,12 +376,12 @@ discuss:
   serverURLs: null
   path: window.location.pathname
 archive:
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
 category:
   enable: true
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
   order_by: "-length"
@@ -390,7 +390,7 @@ category:
   post_limit: 10
 tag:
   enable: false
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 80
   banner_mask_alpha: 0.3
   tagcloud:
@@ -401,7 +401,7 @@ tag:
     end_color: "#337ab7"
 about:
   enable: true
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
   avatar: /assets/avatar.jpg
@@ -417,7 +417,7 @@ about:
     - class: iconfont icon-wechat-fill
       qrcode: /img/favicon.png
 page:
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
 page404:
@@ -428,7 +428,7 @@ page404:
   redirect_delay: 5000
 links:
   enable: true
-  banner_img: /assets/upload-1779201912365-320bb7c4.png
+  banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
   items:

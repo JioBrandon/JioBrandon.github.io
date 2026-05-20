@@ -18,8 +18,10 @@
     if (!isHomePage) return;
 
     // 计算滚动条宽度并补偿，避免锁定/解锁时页面元素左移
+    // 如果浏览器支持 scrollbar-gutter: stable（已通过 CSS 设置），无需此补偿
+    var supportsScrollbarGutter = CSS.supports && CSS.supports('scrollbar-gutter', 'stable');
     var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    if (scrollbarWidth > 0) {
+    if (scrollbarWidth > 0 && !supportsScrollbarGutter) {
       document.body.style.paddingRight = scrollbarWidth + 'px';
     }
 
@@ -116,7 +118,11 @@
         bannerText.style.opacity = '1';
       }
 
-      setTimeout(function() {
+      // 使用 transitionend 事件确保 fade-out 动画完成后再移除元素
+      //（Windows 上 setTimeout 可能在 transition 完成前触发，导致渐隐效果被截断）
+      loadingScreen.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName !== 'opacity') return;
+        loadingScreen.removeEventListener('transitionend', handler);
         if (loadingScreen.parentNode) {
           loadingScreen.parentNode.removeChild(loadingScreen);
         }
@@ -124,7 +130,7 @@
         document.documentElement.style.overflow = '';
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
-      }, 500);
+      });
     }
 
     // 延迟 100ms 开始打字
