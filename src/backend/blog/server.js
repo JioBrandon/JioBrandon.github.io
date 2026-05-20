@@ -45,6 +45,8 @@ const SOURCE_DIR = path.join(BLOG_DIR, 'source');
 const POSTS_DIR = path.join(SOURCE_DIR, '_posts');
 const ASSETS_DIR = path.join(SOURCE_DIR, 'assets');
 const ABOUT_FILE = path.join(SOURCE_DIR, 'about', 'index.md');
+const TAGS_FILE = path.join(SOURCE_DIR, 'tags', 'index.md');
+const LINKS_FILE = path.join(SOURCE_DIR, 'links', 'index.md');
 const CONFIG_FILE = path.join(BLOG_DIR, '_config.fluid.yml');
 const PUBLIC_DIR = path.join(BLOG_DIR, 'public');
 const DATA_DIR = path.join(__dirname, 'data');
@@ -389,6 +391,118 @@ app.post('/api/pages/about', authMiddleware, (req, res) => {
   } catch (err) {
     console.error('[about save]', err);
     res.status(500).json({ error: '保存关于页面失败' });
+  }
+});
+
+// --- 标签页管理 ---
+
+app.get('/api/pages/tags', authMiddleware, (req, res) => {
+  try {
+    if (!fs.existsSync(TAGS_FILE)) {
+      return res.status(404).json({ error: '标签页面不存在' });
+    }
+    const raw = fs.readFileSync(TAGS_FILE, 'utf-8');
+    const { frontMatter, body, yaml: yamlStr } = parseFrontMatter(raw);
+    res.json({ frontMatter, yaml: yamlStr, body, raw });
+  } catch (err) {
+    console.error('[tags get]', err);
+    res.status(500).json({ error: '读取标签页面失败' });
+  }
+});
+
+app.post('/api/pages/tags', authMiddleware, (req, res) => {
+  try {
+    const { frontMatter, body } = req.body;
+    if (typeof body !== 'string') {
+      return res.status(400).json({ error: '缺少页面内容' });
+    }
+    let finalFm = frontMatter || {};
+    if (fs.existsSync(TAGS_FILE)) {
+      const existing = parseFrontMatter(fs.readFileSync(TAGS_FILE, 'utf-8'));
+      finalFm = { ...existing.frontMatter, ...frontMatter };
+    }
+    const content = serializeFrontMatter(finalFm, body);
+    fs.writeFileSync(TAGS_FILE, content, 'utf-8');
+    console.log('[tags] 已保存');
+    triggerBuild();
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[tags save]', err);
+    res.status(500).json({ error: '保存标签页面失败' });
+  }
+});
+
+// --- 友链页面管理 ---
+
+app.get('/api/pages/links', authMiddleware, (req, res) => {
+  try {
+    if (!fs.existsSync(LINKS_FILE)) {
+      return res.status(404).json({ error: '友链页面不存在' });
+    }
+    const raw = fs.readFileSync(LINKS_FILE, 'utf-8');
+    const { frontMatter, body, yaml: yamlStr } = parseFrontMatter(raw);
+    res.json({ frontMatter, yaml: yamlStr, body, raw });
+  } catch (err) {
+    console.error('[links get]', err);
+    res.status(500).json({ error: '读取友链页面失败' });
+  }
+});
+
+app.post('/api/pages/links', authMiddleware, (req, res) => {
+  try {
+    const { frontMatter, body } = req.body;
+    if (typeof body !== 'string') {
+      return res.status(400).json({ error: '缺少页面内容' });
+    }
+    let finalFm = frontMatter || {};
+    if (fs.existsSync(LINKS_FILE)) {
+      const existing = parseFrontMatter(fs.readFileSync(LINKS_FILE, 'utf-8'));
+      finalFm = { ...existing.frontMatter, ...frontMatter };
+    }
+    const content = serializeFrontMatter(finalFm, body);
+    fs.writeFileSync(LINKS_FILE, content, 'utf-8');
+    console.log('[links] 已保存');
+    triggerBuild();
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[links save]', err);
+    res.status(500).json({ error: '保存友链页面失败' });
+  }
+});
+
+// --- 友链配置管理（_config.fluid.yml 中 links.items） ---
+
+app.get('/api/config/links', authMiddleware, (req, res) => {
+  try {
+    const config = yaml.load(fs.readFileSync(CONFIG_FILE, 'utf-8'));
+    const items = (config.links && config.links.items) ? config.links.items : [];
+    res.json(items);
+  } catch (err) {
+    console.error('[links config get]', err);
+    res.status(500).json({ error: '读取友链配置失败' });
+  }
+});
+
+app.post('/api/config/links', authMiddleware, (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'items 必须是数组' });
+    }
+
+    const raw = fs.readFileSync(CONFIG_FILE, 'utf-8');
+    const config = yaml.load(raw);
+    if (!config.links) config.links = {};
+    config.links.items = items;
+
+    const newYaml = yaml.dump(config, { lineWidth: -1, quotingType: '"' });
+    fs.writeFileSync(CONFIG_FILE, newYaml, 'utf-8');
+    console.log('[links config] 已保存 ' + items.length + ' 个友链');
+    triggerBuild();
+    res.json({ success: true, items });
+  } catch (err) {
+    console.error('[links config save]', err);
+    res.status(500).json({ error: '保存友链配置失败' });
   }
 });
 

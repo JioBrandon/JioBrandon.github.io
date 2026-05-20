@@ -389,7 +389,7 @@ category:
   post_order_by: "-date"
   post_limit: 10
 tag:
-  enable: true
+  enable: false
   banner_img: /assets/upload-1779201912365-320bb7c4.png
   banner_img_height: 80
   banner_mask_alpha: 0.3

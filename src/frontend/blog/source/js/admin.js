@@ -92,6 +92,12 @@
     if (pathname.startsWith('/about')) {
       return 'about';
     }
+    if (pathname.startsWith('/tags')) {
+      return 'tags';
+    }
+    if (pathname.startsWith('/links')) {
+      return 'links';
+    }
 
     // DOM 检测作为备选
     if (document.querySelector('.about-content') || document.querySelector('.about-info')) {
@@ -105,6 +111,12 @@
         (document.querySelector('.header-inner') &&
          document.querySelector('.header-inner').style.height === '100vh')) {
       return 'home';
+    }
+    if (document.querySelector('.tagcloud') || document.querySelector('.tag-list')) {
+      return 'tags';
+    }
+    if (document.querySelector('.links-content') || document.querySelector('.friend-links')) {
+      return 'links';
     }
     return 'other';
   }
@@ -266,6 +278,17 @@
       items += '<button class="admin-panel-item" data-action="edit-about">编辑关于内容</button>';
     }
 
+    // 标签页功能
+    if (pageType === 'tags') {
+      items += '<button class="admin-panel-item" data-action="edit-tags">编辑标签页内容</button>';
+    }
+
+    // 友链页功能
+    if (pageType === 'links') {
+      items += '<button class="admin-panel-item" data-action="edit-links">编辑友链页内容</button>';
+      items += '<button class="admin-panel-item" data-action="edit-links-config">管理友链列表</button>';
+    }
+
     // 首页功能
     if (pageType === 'home') {
       items += '<button class="admin-panel-item" data-action="edit-banner">更换首页背景</button>';
@@ -346,6 +369,15 @@
         break;
       case 'edit-about':
         openAboutEditor();
+        break;
+      case 'edit-tags':
+        openTagsEditor();
+        break;
+      case 'edit-links':
+        openLinksEditor();
+        break;
+      case 'edit-links-config':
+        openLinksConfigEditor();
         break;
       case 'new-post':
         openNewPostEditor();
@@ -781,6 +813,231 @@
       overlay.addEventListener('keydown', ctrlSHandler);
     }).catch(function(err) {
       showToast('读取关于页面失败: ' + err.message, 'error');
+    });
+  }
+
+  // ============================================
+  // 标签页编辑
+  // ============================================
+  function openTagsEditor() {
+    removeExistingOverlay();
+
+    api('/api/pages/tags').then(function(data) {
+      showPageEditor(data, '编辑标签页面', 'tags');
+    }).catch(function(err) {
+      showToast('读取标签页面失败: ' + err.message, 'error');
+    });
+  }
+
+  // ============================================
+  // 友链页编辑
+  // ============================================
+  function openLinksEditor() {
+    removeExistingOverlay();
+
+    api('/api/pages/links').then(function(data) {
+      showPageEditor(data, '编辑友链页面', 'links');
+    }).catch(function(err) {
+      showToast('读取友链页面失败: ' + err.message, 'error');
+    });
+  }
+
+  // ============================================
+  // 通用页面编辑器（标签/友链/关于）
+  // ============================================
+  function showPageEditor(data, title, pageType) {
+    var overlay = document.createElement('div');
+    overlay.className = 'admin-modal-overlay';
+
+    var dialog = document.createElement('div');
+    dialog.className = 'admin-editor-dialog';
+    dialog.innerHTML =
+      '<div class="admin-editor-header">' +
+        '<h3>' + title + '</h3>' +
+        '<button class="admin-btn-close" id="editor-close">&times;</button>' +
+      '</div>' +
+      '<div class="admin-editor-body">' +
+        '<div class="admin-editor-pane" style="flex:1">' +
+          '<div class="admin-pane-label">Markdown</div>' +
+          '<textarea class="admin-editor-textarea" id="editor-textarea">' + escapeHtml(data.body || '') + '</textarea>' +
+        '</div>' +
+        '<div class="admin-editor-pane" style="flex:1">' +
+          '<div class="admin-pane-label">预览</div>' +
+          '<div class="admin-editor-preview markdown-body" id="editor-preview"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="admin-editor-footer">' +
+        '<button class="admin-btn admin-btn-cancel" id="editor-cancel">取消</button>' +
+        '<button class="admin-btn admin-btn-primary" id="editor-save">保存</button>' +
+      '</div>';
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    document.getElementById('editor-close').addEventListener('click', function() {
+      removeOverlay(overlay);
+    });
+    document.getElementById('editor-cancel').addEventListener('click', function() {
+      removeOverlay(overlay);
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) removeOverlay(overlay);
+    });
+
+    var textarea = document.getElementById('editor-textarea');
+    var previewEl = document.getElementById('editor-preview');
+
+    function updatePreview() {
+      previewEl.innerHTML = simpleMarkdown(textarea.value);
+    }
+    textarea.addEventListener('input', updatePreview);
+    updatePreview();
+
+    var apiPath = '/api/pages/' + pageType;
+
+    document.getElementById('editor-save').addEventListener('click', function() {
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = '保存中...';
+
+      api(apiPath, {
+        method: 'POST',
+        body: {
+          frontMatter: data.frontMatter,
+          body: textarea.value,
+        },
+      }).then(function() {
+        showToast(title + '保存成功', 'success');
+        showBuildStatus('页面已更新，正在重新构建...');
+        removeOverlay(overlay);
+      }).catch(function(err) {
+        showToast('保存失败: ' + err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '保存';
+      });
+    });
+
+    // Ctrl+S 保存
+    var ctrlSHandler = function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        document.getElementById('editor-save').click();
+      }
+    };
+    overlay.addEventListener('keydown', ctrlSHandler);
+  }
+
+  // ============================================
+  // 友链列表配置编辑
+  // ============================================
+  function openLinksConfigEditor() {
+    removeExistingOverlay();
+
+    api('/api/config/links').then(function(items) {
+      var overlay = document.createElement('div');
+      overlay.className = 'admin-modal-overlay';
+
+      var linksJson = JSON.stringify(items, null, 2);
+
+      var dialog = document.createElement('div');
+      dialog.className = 'admin-editor-dialog';
+      dialog.innerHTML =
+        '<div class="admin-editor-header">' +
+          '<h3>管理友链列表</h3>' +
+          '<button class="admin-btn-close" id="editor-close">&times;</button>' +
+        '</div>' +
+        '<div class="admin-editor-body">' +
+          '<div class="admin-editor-pane" style="flex:1">' +
+            '<div class="admin-pane-label">友链 JSON（编辑后保存）</div>' +
+            '<textarea class="admin-editor-textarea" id="editor-textarea" style="font-size:13px">' + escapeHtml(linksJson) + '</textarea>' +
+          '</div>' +
+          '<div class="admin-editor-pane" style="flex:1">' +
+            '<div class="admin-pane-label">预览</div>' +
+            '<div class="admin-editor-preview markdown-body" id="editor-preview" style="font-size:13px"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="admin-editor-footer">' +
+          '<p style="flex:1;font-size:12px;color:#999;margin:0">格式: [{ "title":"...", "intro":"...", "link":"...", "avatar":"..." }]</p>' +
+          '<button class="admin-btn admin-btn-cancel" id="editor-cancel">取消</button>' +
+          '<button class="admin-btn admin-btn-primary" id="editor-save">保存</button>' +
+        '</div>';
+      overlay.appendChild(dialog);
+      document.body.appendChild(overlay);
+
+      document.getElementById('editor-close').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      document.getElementById('editor-cancel').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) removeOverlay(overlay);
+      });
+
+      var textarea = document.getElementById('editor-textarea');
+      var previewEl = document.getElementById('editor-preview');
+
+      function updatePreview() {
+        try {
+          var parsed = JSON.parse(textarea.value);
+          var html = '<div style="display:flex;flex-direction:column;gap:12px">';
+          parsed.forEach(function(item) {
+            html += '<div style="display:flex;align-items:center;gap:10px;padding:8px;border:1px solid #eee;border-radius:8px">';
+            html += '<img src="' + escapeHtml(item.avatar || '') + '" style="width:40px;height:40px;border-radius:50%;object-fit:cover" onerror="this.src=\'/img/avatar.png\'">';
+            html += '<div><strong>' + escapeHtml(item.title || '') + '</strong>';
+            html += '<br><span style="font-size:12px;color:#666">' + escapeHtml(item.intro || '') + '</span>';
+            html += '<br><a href="' + escapeHtml(item.link || '') + '" target="_blank" style="font-size:12px">' + escapeHtml(item.link || '') + '</a></div>';
+            html += '</div>';
+          });
+          html += '</div>';
+          previewEl.innerHTML = html;
+        } catch (e) {
+          previewEl.innerHTML = '<p style="color:#e74c3c">JSON 格式错误: ' + e.message + '</p>';
+        }
+      }
+      textarea.addEventListener('input', updatePreview);
+      updatePreview();
+
+      document.getElementById('editor-save').addEventListener('click', function() {
+        var btn = this;
+        var parsed;
+        try {
+          parsed = JSON.parse(textarea.value);
+        } catch (e) {
+          showToast('JSON 格式错误: ' + e.message, 'error');
+          return;
+        }
+        if (!Array.isArray(parsed)) {
+          showToast('必须是数组格式', 'error');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = '保存中...';
+
+        api('/api/config/links', {
+          method: 'POST',
+          body: { items: parsed },
+        }).then(function() {
+          showToast('友链列表保存成功', 'success');
+          showBuildStatus('友链已更新，正在重新构建...');
+          removeOverlay(overlay);
+        }).catch(function(err) {
+          showToast('保存失败: ' + err.message, 'error');
+          btn.disabled = false;
+          btn.textContent = '保存';
+        });
+      });
+
+      // Ctrl+S 保存
+      var ctrlSHandler = function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+          e.preventDefault();
+          document.getElementById('editor-save').click();
+        }
+      };
+      overlay.addEventListener('keydown', ctrlSHandler);
+    }).catch(function(err) {
+      showToast('读取友链配置失败: ' + err.message, 'error');
     });
   }
 

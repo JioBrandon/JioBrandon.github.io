@@ -1,19 +1,15 @@
 ---
 title: Agent 智能体初识
-date: 2026-05-17 22:13:23
+date: '2026-05-18 06:13:23'
 categories:
   - LLM
   - Agent
 tags:
   - Agent
   - LLM
-  - Claude
-  - 智能体
-  - ReAct
   - LangChain
 index_img: /assets/agent-cover.png
 ---
-
 ## 学习目标
 
 - 理解什么是 Agent
