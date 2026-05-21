@@ -95,6 +95,9 @@
     if (pathname.startsWith('/tags')) {
       return 'tags';
     }
+    if (pathname.startsWith('/categories')) {
+      return 'categories';
+    }
     if (pathname.startsWith('/links')) {
       return 'links';
     }
@@ -283,6 +286,11 @@
       items += '<button class="admin-panel-item" data-action="edit-tags">编辑标签页内容</button>';
     }
 
+    // 分类页功能
+    if (pageType === 'categories') {
+      items += '<button class="admin-panel-item" data-action="manage-categories">管理文章分类</button>';
+    }
+
     // 友链页功能
     if (pageType === 'links') {
       items += '<button class="admin-panel-item" data-action="edit-links">编辑友链页内容</button>';
@@ -372,6 +380,9 @@
         break;
       case 'edit-tags':
         openTagsEditor();
+        break;
+      case 'manage-categories':
+        openCategoryManager();
         break;
       case 'edit-links':
         openLinksEditor();
@@ -537,6 +548,8 @@
         date: dateStr,
         categories: [],
         tags: [],
+        index_img: null,
+        banner_img: null,
       },
       yaml: 'title: 新文章标题\ndate: ' + dateStr + '\ncategories: []\ntags: []',
       body: '\n## 开始写作\n\n在这里编写你的文章内容...\n',
@@ -585,8 +598,12 @@
           '<input class="admin-fm-input" id="fm-tags" value="' + escapeHtml(tags) + '" placeholder="逗号分隔">' +
         '</div>' +
         '<div class="admin-fm-row">' +
-          '<span class="admin-fm-label">封面</span>' +
-          '<input class="admin-fm-input" id="fm-img" value="' + escapeHtml(fm.index_img || '') + '" placeholder="封面图 URL（可选）">' +
+          '<span class="admin-fm-label">卡片封面</span>' +
+          '<input class="admin-fm-input" id="fm-index-img" value="' + escapeHtml(fm.index_img || '') + '" placeholder="首页卡片缩略图（可选，留空删除）">' +
+        '</div>' +
+        '<div class="admin-fm-row">' +
+          '<span class="admin-fm-label">Banner 图</span>' +
+          '<input class="admin-fm-input" id="fm-banner-img" value="' + escapeHtml(fm.banner_img || '') + '" placeholder="文章顶部大图（可选，留空则使用全局默认）">' +
         '</div>' +
       '</div>' +
       '<div class="admin-editor-body split">' +
@@ -644,8 +661,13 @@
       var tagStr = document.getElementById('fm-tags').value.trim();
       if (tagStr) newFm.tags = tagStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 
-      var imgStr = document.getElementById('fm-img').value.trim();
-      if (imgStr) newFm.index_img = imgStr;
+      // 封面图片：始终发送（包括空字符串，允许清空）
+      var indexImgStr = document.getElementById('fm-index-img').value.trim();
+      newFm.index_img = indexImgStr || null;
+
+      // Banner 图片：始终发送（包括空字符串，允许清空）
+      var bannerImgStr = document.getElementById('fm-banner-img').value.trim();
+      newFm.banner_img = bannerImgStr || null;
 
       var body = textarea.value;
       var filename = data.filename;
@@ -826,6 +848,108 @@
       showPageEditor(data, '编辑标签页面', 'tags');
     }).catch(function(err) {
       showToast('读取标签页面失败: ' + err.message, 'error');
+    });
+  }
+
+  // ============================================
+  // 分类管理
+  // ============================================
+  function openCategoryManager() {
+    removeExistingOverlay();
+
+    api('/api/posts').then(function(posts) {
+      var overlay = document.createElement('div');
+      overlay.className = 'admin-modal-overlay';
+
+      // 构建文章列表 HTML
+      var rowsHtml = '';
+      for (var i = 0; i < posts.length; i++) {
+        var p = posts[i];
+        var catStr = Array.isArray(p.categories) ? p.categories.join(', ') : (p.categories || '');
+        rowsHtml +=
+          '<div class="admin-cat-row">' +
+            '<span class="admin-cat-title">' + escapeHtml(p.title) + '</span>' +
+            '<span class="admin-cat-file">' + escapeHtml(p.filename) + '</span>' +
+            '<input class="admin-cat-input" data-filename="' + escapeHtml(p.filename) + '" value="' + escapeHtml(catStr) + '" placeholder="逗号分隔多级分类，如 LLM, Agent">' +
+          '</div>';
+      }
+
+      var dialog = document.createElement('div');
+      dialog.className = 'admin-editor-dialog';
+      dialog.style.maxWidth = '700px';
+      dialog.style.height = 'auto';
+      dialog.style.maxHeight = '80vh';
+      dialog.innerHTML =
+        '<div class="admin-editor-header">' +
+          '<h3>管理文章分类</h3>' +
+          '<button class="admin-btn-close" id="cat-mgr-close">&times;</button>' +
+        '</div>' +
+        '<div style="padding: 12px 20px; font-size: 13px; color: #666; border-bottom: 1px solid #eee;">' +
+          '修改分类后点"保存全部"，多级分类用逗号分隔（如 LLM, Agent 表示 LLM 下的 Agent 子分类）' +
+        '</div>' +
+        '<div style="flex:1; overflow-y:auto; padding: 8px 0;">' +
+          rowsHtml +
+        '</div>' +
+        '<div class="admin-editor-footer">' +
+          '<button class="admin-btn admin-btn-cancel" id="cat-mgr-cancel">取消</button>' +
+          '<button class="admin-btn admin-btn-primary" id="cat-mgr-save">保存全部</button>' +
+        '</div>';
+      overlay.appendChild(dialog);
+      document.body.appendChild(overlay);
+
+      document.getElementById('cat-mgr-close').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      document.getElementById('cat-mgr-cancel').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) removeOverlay(overlay);
+      });
+
+      document.getElementById('cat-mgr-save').addEventListener('click', function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = '保存中...';
+
+        var inputs = overlay.querySelectorAll('.admin-cat-input');
+        var total = inputs.length;
+        var done = 0;
+        var hasError = false;
+
+        for (var i = 0; i < inputs.length; i++) {
+          (function(input) {
+            var filename = input.getAttribute('data-filename');
+            var catStr = input.value.trim();
+            var cats = catStr ? catStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean) : [];
+
+            // 先获取文章当前 front-matter，再合并
+            api('/api/posts/' + encodeURIComponent(filename)).then(function(data) {
+              data.frontMatter.categories = cats;
+              return api('/api/posts/' + encodeURIComponent(filename), {
+                method: 'POST',
+                body: { frontMatter: data.frontMatter, body: data.body },
+              });
+            }).then(function() {
+              done++;
+              if (done >= total && !hasError) {
+                showToast('分类已更新 (' + total + ' 篇文章)', 'success');
+                showBuildStatus('文章分类已更新，正在重新构建...');
+                removeOverlay(overlay);
+              }
+            }).catch(function(err) {
+              if (!hasError) {
+                hasError = true;
+                showToast('保存失败: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.textContent = '保存全部';
+              }
+            });
+          })(inputs[i]);
+        }
+      });
+    }).catch(function(err) {
+      showToast('读取文章列表失败: ' + err.message, 'error');
     });
   }
 
