@@ -8,7 +8,8 @@ tags:
   - Agent
   - LLM
   - LangChain
-index_img: /assets/agent-cover.png
+index_img: /assets/ai_agent.jpg
+banner_img: /assets/ai_agent.jpg
 ---
 ## 学习目标
 

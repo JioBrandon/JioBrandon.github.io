@@ -327,6 +327,13 @@ app.post('/api/posts/:filename', authMiddleware, (req, res) => {
       finalFm = { ...existing.frontMatter, ...frontMatter };
     }
 
+    // 移除值为 null 或空字符串的字段，允许前端显式清空字段（如 index_img）
+    for (const key of Object.keys(finalFm)) {
+      if (finalFm[key] === null || finalFm[key] === '') {
+        delete finalFm[key];
+      }
+    }
+
     const content = serializeFrontMatter(finalFm, body);
     fs.writeFileSync(filePath, content, 'utf-8');
     console.log(`[posts] 已保存: ${filename}`);

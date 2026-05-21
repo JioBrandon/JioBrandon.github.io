@@ -537,6 +537,8 @@
         date: dateStr,
         categories: [],
         tags: [],
+        index_img: null,
+        banner_img: null,
       },
       yaml: 'title: 新文章标题\ndate: ' + dateStr + '\ncategories: []\ntags: []',
       body: '\n## 开始写作\n\n在这里编写你的文章内容...\n',
@@ -585,8 +587,12 @@
           '<input class="admin-fm-input" id="fm-tags" value="' + escapeHtml(tags) + '" placeholder="逗号分隔">' +
         '</div>' +
         '<div class="admin-fm-row">' +
-          '<span class="admin-fm-label">封面</span>' +
-          '<input class="admin-fm-input" id="fm-img" value="' + escapeHtml(fm.index_img || '') + '" placeholder="封面图 URL（可选）">' +
+          '<span class="admin-fm-label">卡片封面</span>' +
+          '<input class="admin-fm-input" id="fm-index-img" value="' + escapeHtml(fm.index_img || '') + '" placeholder="首页卡片缩略图（可选，留空删除）">' +
+        '</div>' +
+        '<div class="admin-fm-row">' +
+          '<span class="admin-fm-label">Banner 图</span>' +
+          '<input class="admin-fm-input" id="fm-banner-img" value="' + escapeHtml(fm.banner_img || '') + '" placeholder="文章顶部大图（可选，留空则使用全局默认）">' +
         '</div>' +
       '</div>' +
       '<div class="admin-editor-body split">' +
@@ -644,8 +650,13 @@
       var tagStr = document.getElementById('fm-tags').value.trim();
       if (tagStr) newFm.tags = tagStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 
-      var imgStr = document.getElementById('fm-img').value.trim();
-      if (imgStr) newFm.index_img = imgStr;
+      // 封面图片：始终发送（包括空字符串，允许清空）
+      var indexImgStr = document.getElementById('fm-index-img').value.trim();
+      newFm.index_img = indexImgStr || null;
+
+      // Banner 图片：始终发送（包括空字符串，允许清空）
+      var bannerImgStr = document.getElementById('fm-banner-img').value.trim();
+      newFm.banner_img = bannerImgStr || null;
 
       var body = textarea.value;
       var filename = data.filename;
