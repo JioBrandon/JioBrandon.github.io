@@ -11,7 +11,7 @@ layout: about
 
 - **LLM / Agent 开发**：专注于 LLM 应用和 Agent 开发
 - **Python 开发**：擅长 Python 后端开发和自动化脚本
-- **AI 工具链**：LangChain、LangGraph、RAG、Coze 等
+- **技术栈**：LangChain、LangGraph、RAG、Coze 等
 
 ### 兴趣爱好
 
@@ -23,7 +23,7 @@ layout: about
 
 欢迎通过以下方式与我交流：
 
-- GitHub: [Jio_Brandon](https://github.com)
-- Email: jio_brandon8700@foxmail.com
+- GitHub: [Jio_Brandon](https://github.com/JioBrandon)
+- Email: jio_brandon233@gmail.com
 
 > "技术是为了让生活更有趣，游戏是为了让技术更有意义。"

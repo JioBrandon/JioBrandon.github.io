@@ -2,13 +2,13 @@
 title: Agent 智能体初识
 date: '2026-05-18 06:13:23'
 categories:
-  - LLM
-  - Agent
+  - AI 技术文档
 tags:
   - Agent
   - LLM
   - LangChain
-index_img: /assets/agent-cover.png
+index_img: /assets/ai_agent.jpg
+banner_img: /assets/ai_agent.jpg
 ---
 ## 学习目标
 

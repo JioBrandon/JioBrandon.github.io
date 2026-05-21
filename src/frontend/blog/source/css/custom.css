@@ -299,29 +299,33 @@ a {
 .personal-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
   justify-content: center;
   padding: 20px 0;
 }
 
 .personal-tag-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 140px;
+  width: 200px;
+  height: 160px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #1E90FF 0%, #1873CC 100%);
   color: #fff;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 16px rgba(30, 144, 255, 0.25);
+  overflow: hidden;
+  /* 默认蓝色渐变，可通过内联 style="background: ...; color: ..." 自定义 */
+  background: linear-gradient(135deg, #1E90FF 0%, #1873CC 100%);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .personal-tag-item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(30, 144, 255, 0.4);
+  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.35);
   color: #fff;
   text-decoration: none;
 }
@@ -329,6 +333,16 @@ a {
 .personal-tag-icon {
   font-size: 2rem;
   margin-bottom: 8px;
+}
+
+/* 图标图片：替换 emoji 显示在卡片顶部，比 emoji 更大 */
+.personal-tag-icon-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  /* 确保 PNG 透明区域正常显示 */
+  image-rendering: auto;
 }
 
 .personal-tag-name {
@@ -340,9 +354,9 @@ a {
 .personal-tag-desc {
   font-size: 0.75rem;
   margin-top: 6px;
-  opacity: 0.85;
+  opacity: 0.9;
   text-align: center;
-  padding: 0 8px;
+  padding: 0 10px;
 }
 
 /* ----- 目录导航美化（左侧 TOC） ----- */
