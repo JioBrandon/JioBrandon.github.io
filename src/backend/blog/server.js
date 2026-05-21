@@ -46,6 +46,7 @@ const POSTS_DIR = path.join(SOURCE_DIR, '_posts');
 const ASSETS_DIR = path.join(SOURCE_DIR, 'assets');
 const ABOUT_FILE = path.join(SOURCE_DIR, 'about', 'index.md');
 const TAGS_FILE = path.join(SOURCE_DIR, 'tags', 'index.md');
+const CATEGORIES_FILE = path.join(SOURCE_DIR, 'categories', 'index.md');
 const LINKS_FILE = path.join(SOURCE_DIR, 'links', 'index.md');
 const CONFIG_FILE = path.join(BLOG_DIR, '_config.fluid.yml');
 const PUBLIC_DIR = path.join(BLOG_DIR, 'public');
@@ -436,6 +437,44 @@ app.post('/api/pages/tags', authMiddleware, (req, res) => {
   } catch (err) {
     console.error('[tags save]', err);
     res.status(500).json({ error: '保存标签页面失败' });
+  }
+});
+
+// --- 分类页面管理 ---
+
+app.get('/api/pages/categories', authMiddleware, (req, res) => {
+  try {
+    if (!fs.existsSync(CATEGORIES_FILE)) {
+      return res.status(404).json({ error: '分类页面不存在' });
+    }
+    const raw = fs.readFileSync(CATEGORIES_FILE, 'utf-8');
+    const { frontMatter, body, yaml: yamlStr } = parseFrontMatter(raw);
+    res.json({ frontMatter, yaml: yamlStr, body, raw });
+  } catch (err) {
+    console.error('[categories get]', err);
+    res.status(500).json({ error: '读取分类页面失败' });
+  }
+});
+
+app.post('/api/pages/categories', authMiddleware, (req, res) => {
+  try {
+    const { frontMatter, body } = req.body;
+    if (typeof body !== 'string') {
+      return res.status(400).json({ error: '缺少页面内容' });
+    }
+    let finalFm = frontMatter || {};
+    if (fs.existsSync(CATEGORIES_FILE)) {
+      const existing = parseFrontMatter(fs.readFileSync(CATEGORIES_FILE, 'utf-8'));
+      finalFm = { ...existing.frontMatter, ...frontMatter };
+    }
+    const content = serializeFrontMatter(finalFm, body);
+    fs.writeFileSync(CATEGORIES_FILE, content, 'utf-8');
+    console.log('[categories] 已保存');
+    triggerBuild();
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[categories save]', err);
+    res.status(500).json({ error: '保存分类页面失败' });
   }
 });
 
