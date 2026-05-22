@@ -1,0 +1,388 @@
+/* ============================================
+   Jio_Brandon 博客自定义样式
+   ============================================ */
+
+/* ----- 首页 Loading 动画 -----
+   打开网页后先显示白色背景 + 流式文字，文字逐个出现再逐个消失，然后背景图淡入
+*/
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#loading-text {
+  font-family: 'Courier New', 'Noto Sans SC', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+/* 每个字符单独控制 */
+.loading-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.loading-char.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loading-char.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.loading-cursor {
+  display: none;
+}
+
+/* 首页 Banner 初始隐藏（由 JS 控制），loading 完成后淡入 */
+.header-inner {
+  transition: opacity 1s ease;
+}
+
+.header-inner.banner-visible {
+  opacity: 1 !important;
+}
+
+/* ----- 导航栏主题色覆盖 ----- */
+/* 所有页面：导航栏透明（无毛玻璃效果） */
+.navbar {
+  background-color: rgba(30, 144, 255, 0.08) !important;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* 导航栏文字 - 添加文字阴影确保在任何背景上可读 */
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .nav-item .nav-link {
+  color: #ffffff !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-item .nav-link:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 滚动到内容区后增强导航栏背景（首页通过 JS 添加 .scrolled） */
+.navbar.scrolled {
+  background-color: #1E90FF !important;
+  box-shadow: 0 2px 16px rgba(30, 144, 255, 0.3);
+}
+
+/* ----- 首页 Banner 毛玻璃效果 ----- */
+.index-banner {
+  position: relative;
+}
+
+.index-banner .banner-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Banner 遮罩层 - 增强毛玻璃感 */
+.index-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 144, 255, 0.15) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+/* 首页副标题打字机效果增强 */
+.index-slogan {
+  font-family: 'Courier New', 'Noto Sans SC', monospace !important;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Banner 区域 #subtitle 与 Loading 文字保持一致 */
+#subtitle {
+  font-family: 'Courier New', 'Noto Sans SC', monospace !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Loading 文字与 #subtitle 位置对齐 */
+#loading-text {
+  font-family: 'Courier New', 'Noto Sans SC', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+/* ----- 防止布局偏移：为滚动条预留空间（macOS 覆盖式滚动条不受影响） ----- */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* ----- 滚动条美化（默认透明，滚动/悬停时渐显） ----- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.4s ease;
+}
+
+/* 滚动条可见状态 */
+html.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0.6);
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #1E90FF;
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: #1873CC;
+}
+
+/* 暗色模式滚动条 */
+[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(44, 62, 80, 0.6);
+}
+
+[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #4a9eff;
+}
+
+/* Firefox 滚动条样式 */
+html {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+html.scrollbar-visible {
+  scrollbar-color: #1E90FF transparent;
+}
+
+/* ----- 文章卡片美化 ----- */
+.post-item {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.15);
+}
+
+/* ----- 按钮和标签主题色 ----- */
+.tag-link,
+.category-link {
+  transition: all 0.3s ease;
+}
+
+.tag-link:hover,
+.category-link:hover {
+  background-color: #1E90FF !important;
+  color: #ffffff !important;
+  border-color: #1E90FF !important;
+}
+
+/* ----- 分页美化 ----- */
+.pagination .page-item.active .page-link {
+  background-color: #1E90FF;
+  border-color: #1E90FF;
+}
+
+.pagination .page-link:hover {
+  color: #1E90FF;
+}
+
+/* ----- 返回顶部按钮 ----- */
+.back-to-top {
+  background-color: #1E90FF !important;
+  border-color: #1E90FF !important;
+  transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+  background-color: #1873CC !important;
+  border-color: #1873CC !important;
+  transform: translateY(-2px);
+}
+
+/* ----- 关于页面头像 ----- */
+.about-avatar {
+  border: none;
+  box-shadow: none;
+}
+
+/* ----- 代码块美化 ----- */
+pre {
+  border-radius: 8px;
+}
+
+/* ----- 链接高亮 ----- */
+a {
+  transition: color 0.2s ease;
+}
+
+.post-content a {
+  color: #1E90FF;
+  border-bottom: 1px dashed #1E90FF;
+}
+
+.post-content a:hover {
+  color: #1873CC;
+  border-bottom-style: solid;
+}
+
+/* ----- 表格美化 ----- */
+.post-content table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-content table th {
+  background-color: #1E90FF;
+  color: #ffffff;
+}
+
+/* ----- 引用块美化 ----- */
+.post-content blockquote {
+  border-left: 4px solid #1E90FF;
+  background-color: rgba(30, 144, 255, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+/* ----- 个人标签页 ----- */
+.personal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.personal-tag-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 160px;
+  border-radius: 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.25);
+  overflow: hidden;
+  /* 默认蓝色渐变，可通过内联 style="background: ...; color: ..." 自定义 */
+  background: linear-gradient(135deg, #1E90FF 0%, #1873CC 100%);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.personal-tag-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.35);
+  color: #fff;
+  text-decoration: none;
+}
+
+.personal-tag-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* 图标图片：替换 emoji 显示在卡片顶部，比 emoji 更大 */
+.personal-tag-icon-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  /* 确保 PNG 透明区域正常显示 */
+  image-rendering: auto;
+}
+
+.personal-tag-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.personal-tag-desc {
+  font-size: 0.75rem;
+  margin-top: 6px;
+  opacity: 0.9;
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* ----- 目录导航美化（左侧 TOC） ----- */
+.toc-body {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toc-body .toc-item.active > .toc-link {
+  background-color: rgba(30, 144, 255, 0.1);
+  color: #1E90FF;
+  border-left: 3px solid #1E90FF;
+}
+
+/* ----- 响应式优化 ----- */
+@media (max-width: 768px) {
+  .index-slogan {
+    font-size: 1.5rem !important;
+    letter-spacing: 0.08em;
+  }
+
+  .navbar {
+    background-color: transparent !important;
+  }
+
+  .navbar.scrolled {
+    background-color: rgba(30, 144, 255, 0.98) !important;
+  }
+}
