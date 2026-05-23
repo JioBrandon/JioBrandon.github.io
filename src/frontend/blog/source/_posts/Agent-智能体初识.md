@@ -2,7 +2,7 @@
 title: Agent 智能体初识
 date: '2026-05-18 06:13:23'
 categories:
-  - AI 技术文档
+  - 技术文档
 tags:
   - Agent
   - LLM

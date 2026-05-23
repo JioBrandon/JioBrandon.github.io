@@ -1,5 +1,5 @@
-favicon: /assets/icon.jpg
-apple_touch_icon: /assets/icon.jpg
+favicon: /assets/avatar.jpg
+apple_touch_icon: /assets/avatar.jpg
 tab_title_separator: " - "
 force_https: false
 code:
@@ -122,7 +122,7 @@ lazyload:
   offset_factor: 2
 iconfont: //at.alicdn.com/t/c/font_1736178_k526ubmyhba.css
 navbar:
-  blog_title: Jio_Brandon
+  blog_title: "Jio's Blog (*＾ワ＾*)"
   ground_glass:
     enable: true
     px: 3
@@ -409,13 +409,14 @@ about:
   intro: 热爱游戏与技术的开发者，专注于 LLM 应用与 Agent 开发
   icons:
     - class: iconfont icon-github-fill
-      link: https://github.com
+      link: https://github.com/JioBrandon
       tip: GitHub
-    - class: iconfont icon-douban-fill
-      link: https://douban.com
-      tip: 豆瓣
-    - class: iconfont icon-wechat-fill
-      qrcode: /img/favicon.png
+    - class: iconfont icon-bilibili-fill
+      link: https://space.bilibili.com/220896097
+      tip: Bilibili
+    - class: iconfont icon-qq-fill
+      link: tencent://message/?uin=770877644&Site=blog&Menu=yes
+      tip: QQ
 page:
   banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60

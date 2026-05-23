@@ -26,3 +26,16 @@
 1. 当前的标签页中，我希望设置的标签中间可以支持显示图片，标签卡片在当前基础上可以增加类似之前顶栏的那种毛玻璃效果；
 2. 当前的分类页面中目前无法手动修改文章分类；
 3. 我自己上传的功能医学文章中，右侧目录无法像 “Agent智能体”这个文章一样正常显示
+
+### 5.
+1. 顶栏左侧当前的展示信息只有“Jio_Brandon”，这部分内容改为“Jio's Blog (*＾ワ＾*)”；
+2. 网页的图标改为 assets/avatar.jpg，网页名字改为“Jio's Blog (*＾ワ＾*)”；
+3. 关于页中我的头像下方的三个标志，当前分别为Github、豆瓣和微信。我现在需要你将后面两个分别改为：Bilibili和QQ。Github的导向链接为：https://github.com/JioBrandon；Bilibili的导向链接为：https://space.bilibili.com/220896097；QQ的联系链接为：<a href="tencent://message/?uin=770877644&Site=blog&Menu=yes">联系QQ</a>
+
+### 6.
+请阅读 docs\jio's_blog_prd-260523.md 文档，按照文档要求，先编写计划方案，要求：
+1. 文档内的所有修改，需同步修改管理员模式的功能，保证完成上述修改后在管理员模式下可以在前端页面中对博客内容进行修改；
+2. 进行这次修改前，请先完成以下步骤：
+    1. 先确保 feature/blog-editor分支已合并进main分支，若没有先执行合并操作；
+    2. main分支合并了 feature/blog-editor分支后，从main分支拉取并新建一个名为 feature/blog_embellish；
+    3. 在新创建的 feature/blog_embellish 分支上完成上面的修改
