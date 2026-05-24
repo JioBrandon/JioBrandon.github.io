@@ -92,9 +92,6 @@
     if (pathname.startsWith('/about')) {
       return 'about';
     }
-    if (pathname.startsWith('/tags')) {
-      return 'tags';
-    }
     if (pathname.startsWith('/categories')) {
       return 'categories';
     }
@@ -114,9 +111,6 @@
         (document.querySelector('.header-inner') &&
          document.querySelector('.header-inner').style.height === '100vh')) {
       return 'home';
-    }
-    if (document.querySelector('.tagcloud') || document.querySelector('.tag-list')) {
-      return 'tags';
     }
     if (document.querySelector('.links-content') || document.querySelector('.friend-links')) {
       return 'links';
@@ -281,11 +275,6 @@
       items += '<button class="admin-panel-item" data-action="edit-about">编辑关于内容</button>';
     }
 
-    // 标签页功能
-    if (pageType === 'tags') {
-      items += '<button class="admin-panel-item" data-action="edit-tags">编辑标签页内容</button>';
-    }
-
     // 分类页功能
     if (pageType === 'categories') {
       items += '<button class="admin-panel-item" data-action="manage-categories">管理文章分类</button>';
@@ -300,6 +289,7 @@
     // 首页功能
     if (pageType === 'home') {
       items += '<button class="admin-panel-item" data-action="edit-banner">更换首页背景</button>';
+      items += '<button class="admin-panel-item" data-action="manage-sticky">置顶管理</button>';
     }
 
     body.innerHTML = items;
@@ -378,9 +368,6 @@
       case 'edit-about':
         openAboutEditor();
         break;
-      case 'edit-tags':
-        openTagsEditor();
-        break;
       case 'manage-categories':
         openCategoryManager();
         break;
@@ -392,6 +379,9 @@
         break;
       case 'new-post':
         openNewPostEditor();
+        break;
+      case 'manage-sticky':
+        openStickyManager();
         break;
     }
   }
@@ -769,7 +759,7 @@
         '</div>' +
         '<div class="admin-editor-body">' +
           '<div class="admin-editor-pane" style="flex:1">' +
-            '<div class="admin-pane-label">Markdown</div>' +
+            '<div class="admin-pane-label">HTML</div>' +
             '<textarea class="admin-editor-textarea" id="editor-textarea">' + escapeHtml(data.body || '') + '</textarea>' +
           '</div>' +
           '<div class="admin-editor-pane" style="flex:1">' +
@@ -798,7 +788,8 @@
       var previewEl = document.getElementById('editor-preview');
 
       function updatePreview() {
-        previewEl.innerHTML = simpleMarkdown(textarea.value);
+        // 关于页内容为 HTML，直接渲染而非 Markdown
+        previewEl.innerHTML = textarea.value;
       }
       textarea.addEventListener('input', updatePreview);
       updatePreview();
@@ -835,19 +826,6 @@
       overlay.addEventListener('keydown', ctrlSHandler);
     }).catch(function(err) {
       showToast('读取关于页面失败: ' + err.message, 'error');
-    });
-  }
-
-  // ============================================
-  // 标签页编辑
-  // ============================================
-  function openTagsEditor() {
-    removeExistingOverlay();
-
-    api('/api/pages/tags').then(function(data) {
-      showPageEditor(data, '编辑标签页面', 'tags');
-    }).catch(function(err) {
-      showToast('读取标签页面失败: ' + err.message, 'error');
     });
   }
 
@@ -946,6 +924,108 @@
               }
             });
           })(inputs[i]);
+        }
+      });
+    }).catch(function(err) {
+      showToast('读取文章列表失败: ' + err.message, 'error');
+    });
+  }
+
+  // ============================================
+  // 置顶管理
+  // ============================================
+  function openStickyManager() {
+    removeExistingOverlay();
+
+    api('/api/posts').then(function(posts) {
+      var overlay = document.createElement('div');
+      overlay.className = 'admin-modal-overlay';
+
+      // 构建勾选框列表
+      var rowsHtml = '';
+      for (var i = 0; i < posts.length; i++) {
+        var p = posts[i];
+        var isSticky = p.sticky && p.sticky > 0;
+        rowsHtml +=
+          '<div class="admin-cat-row">' +
+            '<span class="admin-cat-title">' + escapeHtml(p.title) + '</span>' +
+            '<label class="admin-sticky-label">' +
+              '<input type="checkbox" class="admin-sticky-check" data-filename="' + escapeHtml(p.filename) + '"' + (isSticky ? ' checked' : '') + '>' +
+              ' 置顶' +
+            '</label>' +
+          '</div>';
+      }
+
+      var dialog = document.createElement('div');
+      dialog.className = 'admin-editor-dialog';
+      dialog.style.maxWidth = '650px';
+      dialog.style.height = 'auto';
+      dialog.style.maxHeight = '80vh';
+      dialog.innerHTML =
+        '<div class="admin-editor-header">' +
+          '<h3>置顶管理</h3>' +
+          '<button class="admin-btn-close" id="sticky-mgr-close">&times;</button>' +
+        '</div>' +
+        '<div style="padding: 12px 20px; font-size: 13px; color: #666; border-bottom: 1px solid #eee;">' +
+          '勾选的文章将在首页以轮播横幅展示，置顶文章的 <code>sticky</code> 值越大排序越靠前' +
+        '</div>' +
+        '<div style="flex:1; overflow-y:auto; padding: 8px 0;">' +
+          rowsHtml +
+        '</div>' +
+        '<div class="admin-editor-footer">' +
+          '<button class="admin-btn admin-btn-cancel" id="sticky-mgr-cancel">取消</button>' +
+          '<button class="admin-btn admin-btn-primary" id="sticky-mgr-save">保存全部</button>' +
+        '</div>';
+      overlay.appendChild(dialog);
+      document.body.appendChild(overlay);
+
+      document.getElementById('sticky-mgr-close').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      document.getElementById('sticky-mgr-cancel').addEventListener('click', function() {
+        removeOverlay(overlay);
+      });
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) removeOverlay(overlay);
+      });
+
+      document.getElementById('sticky-mgr-save').addEventListener('click', function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = '保存中...';
+
+        var checkboxes = overlay.querySelectorAll('.admin-sticky-check');
+        var total = checkboxes.length;
+        var done = 0;
+        var hasError = false;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+          (function(cb) {
+            var filename = cb.getAttribute('data-filename');
+            var stickyValue = cb.checked ? 1 : 0;
+
+            api('/api/posts/' + encodeURIComponent(filename)).then(function(data) {
+              data.frontMatter.sticky = stickyValue;
+              return api('/api/posts/' + encodeURIComponent(filename), {
+                method: 'POST',
+                body: { frontMatter: data.frontMatter, body: data.body },
+              });
+            }).then(function() {
+              done++;
+              if (done >= total && !hasError) {
+                showToast('置顶状态已更新 (' + total + ' 篇文章)', 'success');
+                showBuildStatus('置顶状态已更新，正在重新构建...');
+                removeOverlay(overlay);
+              }
+            }).catch(function(err) {
+              if (!hasError) {
+                hasError = true;
+                showToast('保存失败: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.textContent = '保存全部';
+              }
+            });
+          })(checkboxes[i]);
         }
       });
     }).catch(function(err) {

@@ -1,6 +1,7 @@
 ---
 title: Agent 智能体初识
 date: '2026-05-18 06:13:23'
+sticky: 0
 categories:
   - 技术文档
 tags:
@@ -10,14 +11,6 @@ tags:
 index_img: /assets/ai_agent.jpg
 banner_img: /assets/ai_agent.jpg
 ---
-## 学习目标
-
-- 理解什么是 Agent
-- 理解什么是 Agentic
-- 知道 Agent 的五种模式
-
-<!-- more -->
-
 ## 1. 什么是 Agent
 
 一个 Agent，简单来说，就是一个能够**感知环境、做出决策并采取行动**来完成特定目标的"智能体"。最基础的 LLM（大型语言模型），比如 DeepSeek、ChatGPT，在回答问题时其实就已经是一个基础的 Agent。它感知你的问题（环境），做出回答的决策，并生成文本（行动）。

@@ -142,6 +142,13 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', function() {
 
+    // ----- 修复外部图片：立即移除 lazyload 属性，防止 loading.gif 覆盖真实图片 -----
+    var externalImgs = document.querySelectorAll('img.personal-tag-icon-img[lazyload], img.jio-steam-thumb[lazyload]');
+    for (var ti = 0; ti < externalImgs.length; ti++) {
+      externalImgs[ti].removeAttribute('srcset');
+      externalImgs[ti].removeAttribute('lazyload');
+    }
+
     // ----- 首页 Loading 动画 -----
     initLoadingScreen();
 
@@ -238,6 +245,46 @@
     document.addEventListener('mouseleave', function() {
       hideScrollbarAfterDelay();
     });
+
+    // ----- 番剧列表高度跟随音乐盒卡片 -----
+    var musicCard = document.getElementById('about-music');
+    var animeCard = document.getElementById('about-anime');
+    var bangumiList = animeCard ? animeCard.querySelector('.jio-bangumi-list') : null;
+
+    if (musicCard && bangumiList) {
+      var matchHeights = function () {
+        var animeTitle = animeCard.querySelector('.about-card-title');
+        if (!animeTitle) return;
+        var animeCardH = animeCard.offsetHeight;
+        // 标题区高度 + margin-bottom(16px) + 卡片上下 padding(12+24=36px)
+        var used = animeTitle.offsetHeight + 16 + 36;
+        var listH = animeCardH - used;
+        if (listH > 0) {
+          bangumiList.style.maxHeight = listH + 'px';
+        }
+      };
+
+      // 用 ResizeObserver 监听音乐盒卡片高度变化（APlayer 加载后高度会变）
+      if ('ResizeObserver' in window) {
+        var observer = new ResizeObserver(function () {
+          matchHeights();
+        });
+        observer.observe(musicCard);
+      }
+      // 兼容回退：轮询匹配
+      else {
+        var attempts = 0;
+        var pollTimer = setInterval(function () {
+          attempts++;
+          matchHeights();
+          if (attempts >= 15) clearInterval(pollTimer);
+        }, 400);
+      }
+
+      window.addEventListener('resize', function () {
+        matchHeights();
+      });
+    }
 
   });
 })();

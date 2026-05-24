@@ -9,7 +9,9 @@
     "server": "hexo server",
     "admin": "node ../../backend/blog/server.js",
     "dev": "concurrently \"npm run server\" \"npm run admin\"",
-    "init-password": "node ../../backend/blog/init-password.js"
+    "init-password": "node ../../backend/blog/init-password.js",
+    "update-steam": "hexo steam -u",
+    "update-bangumi": "hexo bangumi-gallery -u"
   },
   "hexo": {
     "version": "8.1.2"
@@ -20,6 +22,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "hexo": "^8.0.0",
+    "hexo-bangumi-gallery": "^2.0.3",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
@@ -30,6 +33,8 @@
     "hexo-renderer-marked": "^7.0.0",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
+    "hexo-steam-games": "^2.0.1",
+    "hexo-tag-aplayer": "^3.0.4",
     "hexo-theme-fluid": "^1.9.9",
     "hexo-theme-landscape": "^1.0.0",
     "jose": "^6.2.3",

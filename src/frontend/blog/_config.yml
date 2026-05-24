@@ -100,6 +100,46 @@ theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
+# Steam 游戏库
+# https://github.com/HCLonely/hexo-steam-games
+steam:
+  enable: true
+  steamId: '76561198410114978'
+  apiKey: 'AB07EDC06DB8B6F2A9BA858A4E164379'
+  path: steamgames/index.html
+  title: Steam游戏库
+  quote: '欢迎来到我的游戏世界'
+  tab: all
+  length: 1000
+
+# APlayer 音乐播放器
+# https://github.com/MoePlayer/hexo-tag-aplayer
+aplayer:
+  meting: true
+
+# Bangumi 番剧列表
+# https://github.com/ChiyukiRuon/hexo-bangumi-gallery
+bangumi_gallery:
+  enable: true
+  api: 'bgm'
+  user_id: '1250369'
+  display:
+    title: '追番列表'
+    quote: '你能和我看一辈子动画吗'
+    index: 1
+    image_level: 'l'
+    size: 'lite'
+    name: true
+    margin: 10
+    page_size: 24
+    progress: true
+    lazyload: true
+  bangumi:
+    enable: true
+    path: /bangumi.html
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
   repository: git@github.com:JioBrandon/JioBrandon.github.io.git

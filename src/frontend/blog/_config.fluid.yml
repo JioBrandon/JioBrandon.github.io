@@ -133,14 +133,8 @@ navbar:
       icon: iconfont icon-home-fill
     - key: category
       link: /categories/
-      icon: iconfont icon-category-fill
-    - key: tag
-      link: /tags/
-      icon: iconfont icon-tags-fill
-    - key: archive
-      link: /archives/
       icon: iconfont icon-archive-fill
-      name: 文章
+      name: 归档
     - key: links
       link: /links/
       icon: iconfont icon-link-fill
@@ -172,7 +166,16 @@ open_graph:
   fb_admins: null
   fb_app_id: null
 footer:
-  content: " <a href=\"https://hexo.io\" target=\"_blank\" rel=\"nofollow noopener\"><span>Hexo</span></a> <i class=\"iconfont icon-love\"></i> <a href=\"https://github.com/fluid-dev/hexo-theme-fluid\" target=\"_blank\" rel=\"nofollow noopener\"><span>Fluid</span></a> "
+  content: "
+    <div style=\"line-height: 1.8;\">
+      <div>&copy; 2017 - 2026 <strong>Jio_Brandon</strong></div>
+      <div style=\"color: #718096; font-size: 0.85rem;\">LLM / Agent 开发探索 &amp; 游戏日常记录</div>
+      <div style=\"color: #a0aec0; font-size: 0.75rem;\">
+        Powered by <a href=\"https://hexo.io\" target=\"_blank\" rel=\"nofollow noopener\" style=\"color: #a0aec0;\">Hexo</a>
+        &amp; <a href=\"https://github.com/fluid-dev/hexo-theme-fluid\" target=\"_blank\" rel=\"nofollow noopener\" style=\"color: #a0aec0;\">Fluid</a>
+      </div>
+    </div>
+  "
   statistics:
     enable: false
     source: busuanzi
@@ -381,6 +384,8 @@ archive:
   banner_mask_alpha: 0.3
 category:
   enable: true
+  title: 归档
+  subtitle: 归档
   banner_img: /assets/upload-1779293926748-a021fe77.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
