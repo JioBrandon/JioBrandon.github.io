@@ -68,8 +68,8 @@
 /* ----- 导航栏主题色覆盖 ----- */
 /* 所有页面：导航栏透明（无毛玻璃效果） */
 .navbar {
-  background-color: rgba(30, 144, 255, 0.08) !important;
-  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.1);
+  background-color: rgba(59, 130, 246, 0.08) !important;
+  box-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -90,8 +90,8 @@
 
 /* 滚动到内容区后增强导航栏背景（首页通过 JS 添加 .scrolled） */
 .navbar.scrolled {
-  background-color: #1E90FF !important;
-  box-shadow: 0 2px 16px rgba(30, 144, 255, 0.3);
+  background-color: #3B82F6 !important;
+  box-shadow: 0 2px 16px rgba(59, 130, 246, 0.3);
 }
 
 /* ----- 首页 Banner 毛玻璃效果 ----- */
@@ -114,7 +114,7 @@
   bottom: 0;
   background: linear-gradient(
     180deg,
-    rgba(30, 144, 255, 0.15) 0%,
+    rgba(59, 130, 246, 0.15) 0%,
     rgba(0, 0, 0, 0.4) 100%
   );
   backdrop-filter: blur(2px);
@@ -176,19 +176,21 @@ html.scrollbar-visible::-webkit-scrollbar-track {
 }
 
 html.scrollbar-visible::-webkit-scrollbar-thumb {
-  background: #1E90FF;
+  background: #3B82F6;
 }
 
 html.scrollbar-visible::-webkit-scrollbar-thumb:hover {
-  background: #1873CC;
+  background: #2563EB;
 }
 
 /* 暗色模式滚动条 */
-[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-track {
+[data-user-color-scheme="dark"] html.scrollbar-visible::-webkit-scrollbar-track,
+html[data-user-color-scheme="dark"].scrollbar-visible::-webkit-scrollbar-track {
   background: rgba(44, 62, 80, 0.6);
 }
 
-[data-theme="dark"] html.scrollbar-visible::-webkit-scrollbar-thumb {
+[data-user-color-scheme="dark"] html.scrollbar-visible::-webkit-scrollbar-thumb,
+html[data-user-color-scheme="dark"].scrollbar-visible::-webkit-scrollbar-thumb {
   background: #4a9eff;
 }
 
@@ -199,7 +201,7 @@ html {
 }
 
 html.scrollbar-visible {
-  scrollbar-color: #1E90FF transparent;
+  scrollbar-color: #3B82F6 transparent;
 }
 
 /* ----- 内容区顶部间距缩减 ----- */
@@ -221,7 +223,7 @@ html.scrollbar-visible {
 
 .index-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
 }
 
 .post-item {
@@ -232,7 +234,7 @@ html.scrollbar-visible {
 
 .post-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
 }
 
 /* ----- 按钮和标签主题色 ----- */
@@ -243,31 +245,31 @@ html.scrollbar-visible {
 
 .tag-link:hover,
 .category-link:hover {
-  background-color: #1E90FF !important;
+  background-color: #3B82F6 !important;
   color: #ffffff !important;
-  border-color: #1E90FF !important;
+  border-color: #3B82F6 !important;
 }
 
 /* ----- 分页美化 ----- */
 .pagination .page-item.active .page-link {
-  background-color: #1E90FF;
-  border-color: #1E90FF;
+  background-color: #3B82F6;
+  border-color: #3B82F6;
 }
 
 .pagination .page-link:hover {
-  color: #1E90FF;
+  color: #3B82F6;
 }
 
 /* ----- 返回顶部按钮 ----- */
 .back-to-top {
-  background-color: #1E90FF !important;
-  border-color: #1E90FF !important;
+  background-color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
   transition: all 0.3s ease;
 }
 
 .back-to-top:hover {
-  background-color: #1873CC !important;
-  border-color: #1873CC !important;
+  background-color: #2563EB !important;
+  border-color: #2563EB !important;
   transform: translateY(-2px);
 }
 
@@ -288,8 +290,8 @@ a {
 }
 
 .post-content a {
-  color: #1E90FF;
-  border-bottom: 1px dashed #1E90FF;
+  color: #3B82F6;
+  border-bottom: 1px dashed #3B82F6;
 }
 
 /* 个人标签卡片内的链接不受 post-content 样式影响 */
@@ -301,7 +303,7 @@ a {
 }
 
 .post-content a:hover {
-  color: #1873CC;
+  color: #2563EB;
   border-bottom-style: solid;
 }
 
@@ -313,14 +315,14 @@ a {
 }
 
 .post-content table th {
-  background-color: #1E90FF;
+  background-color: #3B82F6;
   color: #ffffff;
 }
 
 /* ----- 引用块美化 ----- */
 .post-content blockquote {
-  border-left: 4px solid #1E90FF;
-  background-color: rgba(30, 144, 255, 0.05);
+  border-left: 4px solid #3B82F6;
+  background-color: rgba(59, 130, 246, 0.05);
   border-radius: 0 8px 8px 0;
 }
 
@@ -345,16 +347,16 @@ a {
   color: #fff;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.25);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
   overflow: hidden;
   /* 默认蓝色渐变，可通过内联 style="background: ...; color: ..." 自定义 */
-  background: linear-gradient(135deg, #1E90FF 0%, #1873CC 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .personal-tag-item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.35);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.35);
   color: #fff;
   text-decoration: none;
 }
@@ -396,9 +398,9 @@ img.personal-tag-icon-img {
 }
 
 .toc-body .toc-item.active > .toc-link {
-  background-color: rgba(30, 144, 255, 0.1);
-  color: #1E90FF;
-  border-left: 3px solid #1E90FF;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+  border-left: 3px solid #3B82F6;
 }
 
 /* ============================================
@@ -446,16 +448,16 @@ img.personal-tag-icon-img {
 }
 
 .jio-sidebar-card:hover {
-  box-shadow: 0 4px 20px rgba(30, 144, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
 }
 
 .jio-sidebar-card-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #1E90FF;
+  color: #3B82F6;
   margin-bottom: 14px;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(30, 144, 255, 0.12);
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -469,7 +471,7 @@ img.personal-tag-icon-img {
   object-fit: cover;
   display: block;
   margin: 0 auto 12px;
-  border: 3px solid rgba(30, 144, 255, 0.15);
+  border: 3px solid rgba(59, 130, 246, 0.15);
 }
 
 .jio-author-name {
@@ -501,7 +503,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-author-socials a:hover {
-  color: #1E90FF;
+  color: #3B82F6;
   transform: translateY(-2px);
 }
 
@@ -561,7 +563,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-cat-summary:hover .jio-cat-name {
-  color: #1E90FF;
+  color: #3B82F6;
 }
 
 .jio-cat-count {
@@ -595,7 +597,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-cat-posts li a:hover {
-  color: #1E90FF;
+  color: #3B82F6;
 }
 
 /* --- 标签云 --- */
@@ -617,7 +619,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-tag-item:hover {
-  background: #1E90FF;
+  background: #3B82F6;
   color: #fff;
   text-decoration: none;
 }
@@ -631,7 +633,7 @@ img.personal-tag-icon-img {
 }
 
 [data-user-color-scheme="dark"] .jio-sidebar-card:hover {
-  box-shadow: 0 4px 20px rgba(30, 144, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
 }
 
 [data-user-color-scheme="dark"] .index-card {
@@ -640,7 +642,7 @@ img.personal-tag-icon-img {
 }
 
 [data-user-color-scheme="dark"] .index-card:hover {
-  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.2);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
 }
 
 [data-user-color-scheme="dark"] .jio-author-name {
@@ -670,7 +672,7 @@ img.personal-tag-icon-img {
 }
 
 [data-user-color-scheme="dark"] .jio-tag-item:hover {
-  background: #1E90FF;
+  background: #3B82F6;
   color: #fff;
 }
 
@@ -728,7 +730,7 @@ img.personal-tag-icon-img {
 }
 
 .about-card:hover {
-  box-shadow: 0 6px 24px rgba(30, 144, 255, 0.12);
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.12);
   transform: translateY(-2px);
 }
 
@@ -739,10 +741,10 @@ img.personal-tag-icon-img {
 .about-card-title {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #1E90FF;
+  color: #3B82F6;
   margin: 0 0 16px 0 !important;
   padding-bottom: 12px;
-  border-bottom: 2px solid rgba(30, 144, 255, 0.12);
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -800,7 +802,7 @@ img.personal-tag-icon-img {
 }
 
 [data-user-color-scheme="dark"] .about-card:hover {
-  box-shadow: 0 6px 24px rgba(30, 144, 255, 0.15);
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
 }
 
 [data-user-color-scheme="dark"] .about-info-row {
@@ -835,7 +837,7 @@ img.personal-tag-icon-img {
   }
 
   .navbar.scrolled {
-    background-color: rgba(30, 144, 255, 0.98) !important;
+    background-color: rgba(59, 130, 246, 0.98) !important;
   }
 }
 
@@ -859,7 +861,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-steam-list::-webkit-scrollbar-thumb {
-  background: rgba(30, 144, 255, 0.25);
+  background: rgba(59, 130, 246, 0.25);
   border-radius: 2px;
 }
 
@@ -879,7 +881,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-steam-row:hover {
-  background: rgba(30, 144, 255, 0.06);
+  background: rgba(59, 130, 246, 0.06);
   text-decoration: none;
 }
 
@@ -903,7 +905,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-steam-row:hover .jio-steam-name {
-  color: #1E90FF;
+  color: #3B82F6;
 }
 
 .jio-steam-hours {
@@ -959,7 +961,7 @@ img.personal-tag-icon-img {
 }
 
 .jio-bangumi-list::-webkit-scrollbar-thumb {
-  background: rgba(30, 144, 255, 0.25);
+  background: rgba(59, 130, 246, 0.25);
   border-radius: 2px;
 }
 
@@ -1012,7 +1014,7 @@ img.personal-tag-icon-img {
 }
 
 [data-user-color-scheme="dark"] .jio-steam-row:hover {
-  background: rgba(30, 144, 255, 0.1);
+  background: rgba(59, 130, 246, 0.1);
 }
 
 [data-user-color-scheme="dark"] .jio-steam-name {
@@ -1038,4 +1040,757 @@ img.personal-tag-icon-img {
 
 [data-user-color-scheme="dark"] .jio-bangumi-name {
   color: #c4c6c9;
+}
+
+/* ============================================
+   v2.1 设计系统
+   ============================================ */
+
+:root {
+  /* 主色：降低饱和度的蓝 */
+  --jio-primary: #3B82F6;
+  --jio-primary-dark: #2563EB;
+  --jio-primary-light: #60A5FA;
+  /* 辅助色：标签 / 分类 / 强调 / 友链 */
+  --jio-tag: #8B5CF6;
+  --jio-category: #10B981;
+  --jio-accent: #F59E0B;
+  --jio-link: #06B6D4;
+  /* 已读链接色 */
+  --jio-visited: #8B5CF6;
+  /* 正文阅读宽度 */
+  --jio-content-width: 760px;
+  --jio-post-width: 720px;
+}
+
+/* ============================================
+   v2.1 首屏吸附滚动（Banner ↔ Bento）
+   ============================================ */
+html.jio-snap-page {
+  scroll-snap-type: y mandatory;
+}
+
+html.jio-snap-page .header-inner,
+html.jio-snap-page .jio-bento-wrap {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* 小屏设备内容易溢出，关闭强制吸附 */
+@media (max-width: 900px) {
+  html.jio-snap-page {
+    scroll-snap-type: none;
+  }
+}
+
+/* ============================================
+   v2.1 Bento 首页区域
+   ============================================ */
+.jio-bento-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 16px 40px;
+  box-sizing: border-box;
+}
+
+.jio-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* 通用格子卡片 */
+.jio-bento-cell {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.jio-bento-cell:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10);
+  transform: translateY(-2px);
+}
+
+.jio-bento-cell-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3c4858;
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jio-bento-cell-title i {
+  color: var(--jio-primary);
+}
+
+.jio-bento-cell-more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--jio-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.jio-bento-cell-more:hover {
+  color: var(--jio-primary-dark);
+  text-decoration: none;
+}
+
+/* --- 格子位置分配（4 列网格） --- */
+/* 精选文章：左上 3 列 x 2 行 */
+.jio-bento-featured {
+  grid-column: 1 / 4;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* 关于我：右上 */
+.jio-bento-about {
+  grid-column: 4 / 5;
+  grid-row: 1 / 2;
+  text-align: center;
+}
+
+/* 热门标签：右中 */
+.jio-bento-tags {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+}
+
+/* 最新文章：左下 2 列 */
+.jio-bento-latest {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+}
+
+/* 友链 */
+.jio-bento-links {
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+}
+
+/* RSS 订阅 */
+.jio-bento-rss {
+  grid-column: 4 / 5;
+  grid-row: 3 / 4;
+  display: block;
+  text-decoration: none;
+}
+
+/* --- 精选文章 --- */
+.jio-featured-cover {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 200px;
+  background: linear-gradient(135deg, var(--jio-primary) 0%, var(--jio-primary-dark) 100%);
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.jio-featured-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--jio-accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.08em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.jio-featured-body {
+  padding: 18px 20px 20px;
+}
+
+.jio-featured-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 10px 0;
+}
+
+.jio-featured-title a {
+  color: #1a202c;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.jio-featured-title a:hover {
+  color: var(--jio-primary);
+}
+
+.jio-featured-excerpt {
+  font-size: 0.92rem;
+  color: #718096;
+  line-height: 1.65;
+  margin: 0 0 14px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jio-featured-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: #a0aec0;
+}
+
+.jio-featured-cat {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--jio-category);
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- 关于我 --- */
+.jio-bento-about-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 4px auto 10px;
+  display: block;
+  border: 3px solid rgba(59, 130, 246, 0.15);
+}
+
+.jio-bento-about-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.jio-bento-about-intro {
+  font-size: 0.75rem;
+  color: #718096;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.jio-bento-about-socials {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.jio-bento-about-socials a {
+  color: #718096;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.jio-bento-about-socials a:hover {
+  color: var(--jio-primary);
+  transform: translateY(-2px);
+}
+
+.jio-bento-about-more {
+  font-size: 0.75rem;
+  color: var(--jio-primary);
+  text-decoration: none;
+}
+
+.jio-bento-about-more:hover {
+  color: var(--jio-primary-dark);
+  text-decoration: none;
+}
+
+/* --- 最新文章 --- */
+.jio-bento-latest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.jio-bento-latest-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 6px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.jio-bento-latest-item a:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.jio-bento-latest-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  color: #3c4858;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jio-bento-latest-item a:hover .jio-bento-latest-title {
+  color: var(--jio-primary);
+}
+
+.jio-bento-latest-date {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: #a0aec0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 热门标签 --- */
+.jio-bento-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.jio-bento-tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--jio-tag);
+  font-size: 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.jio-bento-tag-item:hover {
+  background: var(--jio-tag);
+  color: #fff;
+  text-decoration: none;
+}
+
+.jio-bento-tag-count {
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+/* --- 友链 --- */
+.jio-bento-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jio-bento-link-item {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.jio-bento-link-item:hover {
+  background: rgba(6, 182, 212, 0.08);
+  text-decoration: none;
+}
+
+.jio-bento-link-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3c4858;
+}
+
+.jio-bento-link-item:hover .jio-bento-link-title {
+  color: var(--jio-link);
+}
+
+.jio-bento-link-intro {
+  font-size: 0.68rem;
+  color: #a0aec0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- RSS 订阅 --- */
+.jio-bento-rss-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: 6px;
+}
+
+.jio-bento-rss-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.jio-bento-rss-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--jio-accent);
+}
+
+.jio-bento-rss-desc {
+  font-size: 0.72rem;
+  color: #a0aec0;
+  line-height: 1.4;
+}
+
+.jio-bento-rss:hover .jio-bento-rss-title {
+  color: #D97706;
+}
+
+.jio-bento-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #a0aec0;
+  font-size: 0.85rem;
+}
+
+/* --- Bento 响应式：移动端全部堆叠单列 --- */
+@media (max-width: 900px) {
+  .jio-bento-wrap {
+    min-height: auto;
+    padding: 64px 12px 24px;
+  }
+
+  .jio-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .jio-bento-featured,
+  .jio-bento-about,
+  .jio-bento-latest,
+  .jio-bento-tags,
+  .jio-bento-links,
+  .jio-bento-rss {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .jio-featured-cover {
+    min-height: 160px;
+  }
+}
+
+/* --- Bento 暗色模式 --- */
+[data-user-color-scheme="dark"] .jio-bento-cell {
+  background: #252d38;
+  border-color: #364151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cell-title {
+  color: #c4c6c9;
+  border-bottom-color: rgba(96, 165, 250, 0.2);
+}
+
+[data-user-color-scheme="dark"] .jio-featured-title a {
+  color: #e2e8f0;
+}
+
+[data-user-color-scheme="dark"] .jio-featured-excerpt,
+[data-user-color-scheme="dark"] .jio-bento-about-intro,
+[data-user-color-scheme="dark"] .jio-bento-link-intro {
+  color: #a7a9ad;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-about-name,
+[data-user-color-scheme="dark"] .jio-bento-latest-title,
+[data-user-color-scheme="dark"] .jio-bento-link-title {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-latest-item a:hover {
+  background: rgba(96, 165, 250, 0.12);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-tag-item {
+  background: rgba(139, 92, 246, 0.18);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-tag-item:hover {
+  background: var(--jio-tag);
+  color: #fff;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-link-item:hover {
+  background: rgba(6, 182, 212, 0.15);
+}
+
+/* ============================================
+   v2.1 文章卡片统一：左文右图 + 摘要 2 行
+   ============================================ */
+@media (min-width: 768px) {
+  .index-card {
+    flex-direction: row-reverse;
+  }
+}
+
+.index-card {
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.index-card:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10) !important;
+  transform: translateY(-2px);
+}
+
+[data-user-color-scheme="dark"] .index-card {
+  border-color: #364151;
+}
+
+/* 摘要限制 2 行 */
+.index-excerpt > div {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================
+   v2.1 字号层级
+   ============================================ */
+.index-header {
+  font-size: 1.5rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.index-excerpt {
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.post-metas {
+  font-size: 0.8rem;
+}
+
+/* ============================================
+   v2.1 正文阅读宽度（全站 720-760px）
+   首页已被 index-layout.js 替换为双栏布局，不受影响
+   ============================================ */
+@media (min-width: 768px) {
+  #board .col-12.col-md-10 {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: var(--jio-content-width);
+  }
+}
+
+/* 文章页正文限宽 720px */
+.post-content {
+  max-width: var(--jio-post-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   v2.1 链接 visited 状态色
+   ============================================ */
+.post-content a:visited {
+  color: var(--jio-visited);
+  border-bottom-color: var(--jio-visited);
+}
+
+.index-header a:visited {
+  color: #94a3b8;
+}
+
+.jio-bento-latest-item a:visited .jio-bento-latest-title {
+  color: #94a3b8;
+}
+
+/* ============================================
+   v2.1 面包屑导航
+   ============================================ */
+.jio-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: var(--jio-post-width);
+  margin: 0 auto 16px;
+  font-size: 0.82rem;
+}
+
+.jio-breadcrumb-link {
+  color: #718096;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.jio-breadcrumb-link:hover {
+  color: var(--jio-primary);
+  text-decoration: none;
+}
+
+.jio-breadcrumb-sep {
+  color: #cbd5e0;
+}
+
+.jio-breadcrumb-current {
+  color: #3c4858;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+[data-user-color-scheme="dark"] .jio-breadcrumb-current {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-breadcrumb-sep {
+  color: #4a5568;
+}
+
+/* ============================================
+   v2.1 分页组件：当前页高亮 + 上下页按钮
+   ============================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 32px 0 8px;
+}
+
+.pagination .page-number,
+.pagination .extend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  color: #3c4858;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-number:hover,
+.pagination .extend:hover {
+  border-color: var(--jio-primary);
+  color: var(--jio-primary);
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.pagination .page-number.current {
+  background: var(--jio-primary);
+  border-color: var(--jio-primary);
+  color: #fff;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.pagination .space {
+  color: #a0aec0;
+  letter-spacing: 2px;
+}
+
+[data-user-color-scheme="dark"] .pagination .page-number,
+[data-user-color-scheme="dark"] .pagination .extend {
+  background: #252d38;
+  border-color: #364151;
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .pagination .page-number.current {
+  background: var(--jio-primary);
+  border-color: var(--jio-primary);
+  color: #fff;
+}
+
+/* ============================================
+   v2.1 侧边栏视觉权重降低 + 查看全部分类入口
+   ============================================ */
+.jio-sidebar-card {
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: none;
+}
+
+.jio-sidebar-card:hover {
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
+}
+
+[data-user-color-scheme="dark"] .jio-sidebar-card {
+  background: #1f2733;
+  border-color: #364151;
+}
+
+.jio-cat-more {
+  display: block;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+  font-size: 0.78rem;
+  color: var(--jio-primary);
+  text-decoration: none;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.jio-cat-more:hover {
+  color: var(--jio-primary-dark);
+  text-decoration: none;
+}
+
+[data-user-color-scheme="dark"] .jio-cat-more {
+  border-top-color: #364151;
+}
+
+/* ============================================
+   v2.1 统一卡片圆角与阴影（更克制）
+   ============================================ */
+.about-card {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.about-card:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10);
+  transform: translateY(-2px);
 }

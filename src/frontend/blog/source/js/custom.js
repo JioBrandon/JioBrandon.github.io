@@ -17,6 +17,19 @@
 
     if (!isHomePage) return;
 
+    // v2.1：Loading 动画每天仅首次访问时显示
+    // 当天已显示过则直接跳过，Banner 元素保持默认可见状态
+    var STORAGE_KEY = 'jio_loading_shown_date';
+    var today = new Date().toDateString();
+    try {
+      if (window.localStorage && localStorage.getItem(STORAGE_KEY) === today) {
+        return;
+      }
+      localStorage.setItem(STORAGE_KEY, today);
+    } catch (e) {
+      // localStorage 不可用（隐私模式等）时每次都播放动画
+    }
+
     // 计算滚动条宽度并补偿，避免锁定/解锁时页面元素左移
     // 如果浏览器支持 scrollbar-gutter: stable（已通过 CSS 设置），无需此补偿
     var supportsScrollbarGutter = CSS.supports && CSS.supports('scrollbar-gutter', 'stable');
@@ -176,11 +189,11 @@
     // ----- 首页 Banner 文字增强效果 -----
     var sloganEl = document.querySelector('.index-slogan');
     if (sloganEl) {
-      sloganEl.style.textShadow = '0 0 20px rgba(30, 144, 255, 0.6), 0 2px 12px rgba(0, 0, 0, 0.5)';
+      sloganEl.style.textShadow = '0 0 20px rgba(59, 130, 246, 0.6), 0 2px 12px rgba(0, 0, 0, 0.5)';
     }
 
-    // ----- 文章卡片进入动画 -----
-    var postItems = document.querySelectorAll('.post-item');
+    // ----- 文章卡片进入动画（首页卡片类名为 .index-card） -----
+    var postItems = document.querySelectorAll('.index-card');
     if (postItems.length > 0) {
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry, index) {
@@ -203,7 +216,7 @@
     }
 
     // ----- 欢迎语控制台输出 -----
-    console.log('%c☕ WELCOME TO JIO\'S BLOG', 'color: #1E90FF; font-size: 20px; font-weight: bold;');
+    console.log('%c☕ WELCOME TO JIO\'S BLOG', 'color: #3B82F6; font-size: 20px; font-weight: bold;');
     console.log('%c🚀 LLM / Agent 开发探索 & 游戏日常记录', 'color: #666; font-size: 12px;');
 
     // ----- 滚动条智能显示/隐藏 -----

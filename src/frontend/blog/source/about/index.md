@@ -42,7 +42,7 @@ layout: about
         <span class="personal-tag-name">Minecraft</span>
         <span class="personal-tag-desc">养老 · 生电 · 整合包开发</span>
       </a>
-      <a href="/tags/明日方舟/" class="personal-tag-item" style="background: linear-gradient(135deg, #000000 0%, #000000 100%); color: #fff; text-shadow: none;">
+      <a href="/tags/明日方舟/" class="personal-tag-item" style="background: linear-gradient(135deg, #2B3A4A 0%, #141E28 100%); color: #fff; text-shadow: none;">
         <img class="personal-tag-icon-img" src="/assets/arknights.png" alt="明日方舟">
         <span class="personal-tag-name">明日方舟</span>
         <span class="personal-tag-desc">二游 · 塔防</span>

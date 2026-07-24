@@ -79,7 +79,10 @@ function buildSidebar(hexo, theme) {
       html += '</ul>';
       html += '</details>';
     });
-    html += '</div></div>';
+    html += '</div>';
+    // v2.1：侧边栏分类卡片底部增加"查看全部分类"入口
+    html += '<a class="jio-cat-more" href="' + hexo.extend.helper.get('url_for').call(hexo, '/categories/') + '">查看全部分类 →</a>';
+    html += '</div>';
   }
 
   // --- 文章标签 ---

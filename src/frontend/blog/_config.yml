@@ -144,3 +144,19 @@ deploy:
   type: git
   repository: git@github.com:JioBrandon/JioBrandon.github.io.git
   branch: main
+
+# RSS 订阅源（v2.1 新增）
+# https://github.com/hexojs/hexo-generator-feed
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: /assets/avatar.jpg
+  autodiscovery: true
+  template:
