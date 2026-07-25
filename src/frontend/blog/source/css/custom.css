@@ -776,8 +776,8 @@ img.personal-tag-icon-img {
   --jio-link: #06B6D4;
   /* 已读链接色 */
   --jio-visited: #8B5CF6;
-  /* 正文阅读宽度：恢复到接近主题原版的 960px */
-  --jio-post-width: 960px;
+  /* 正文阅读宽度 */
+  --jio-post-width: 1230px;
 }
 
 /* ============================================
@@ -1366,16 +1366,24 @@ html:not(.jio-home-page) #board .container {
   max-width: 1230px;
 }
 
-/* 文章页（post）：侧边栏从 col-lg-2 缩为 col-lg-1，内容区从 col-lg-8 扩为 col-lg-10
-   使正文区域宽度与首页 1200px 对齐（10/12 * 1440 = 1200） */
+/* 文章页（post）：侧栏左右分离控制
+   - 左侧栏（分类导航/面包屑）：仅去内边距，独立于 TOC
+   - 右侧栏（TOC 目录）：动态偏移缩小正文与目录间距
+   当屏幕 > ~1845px 时，正文容器 max-width:1230px 不再扩展，
+   但 Bootstrap 网格列仍按比例拉宽 → 间隙 = 1/3*VW - 615px。
+   公式 min(0, -33.33vw + 630px) 动态抵消：
+   - 小屏（≤1850px）：min(0,正值)=0，不动
+   - 大屏（2560px）：min(0,-223px)= -223px，间隙缩至 ~15px */
 @media (min-width: 992px) {
-  .row:has(#board-ctn) > .side-col.col-lg-2 {
-    flex: 0 0 8.33333%;
-    max-width: 8.33333%;
+  /* 左侧栏：分类导航（面包屑） */
+  .jio-post-page .row > .side-col.col-lg-2:first-child {
+    padding-left: 0;
   }
-  .row:has(#board-ctn) > .col-lg-8.nopadding-x-md {
-    flex: 0 0 83.33333%;
-    max-width: 83.33333%;
+
+  /* 右侧栏：TOC 目录 */
+  .jio-post-page .row > .side-col.col-lg-2:last-child {
+    padding-left: 0;
+    transform: translateX(min(0px, calc(-33.33vw + 630px)));
   }
 }
 
@@ -1419,7 +1427,9 @@ html:not(.jio-home-page) #board .container {
   gap: 8px;
   max-width: var(--jio-post-width);
   margin: 0 auto 24px;
+  padding-left: 120px;
   padding-top: 24px;
+  padding-bottom: 20px;
   font-size: 0.82rem;
 }
 
