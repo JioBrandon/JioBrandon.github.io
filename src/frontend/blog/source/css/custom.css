@@ -218,9 +218,15 @@ html.scrollbar-visible {
 }
 
 /* ----- 内容区顶部间距缩减 ----- */
+/* 首页 Bento 布局下 #board 上边距由 .jio-home-page #board .container 提供；
+   非首页沿用 v2.0 的 1.2rem 上边距，避免内容紧贴 #board 上边缘 */
 #board {
   padding-top: 0;
   padding-bottom: 2rem;
+}
+
+html:not(.jio-home-page) #board {
+  padding-top: 1.2rem;
 }
 
 /* 首页文章列表区域标题，与 Bento 卡片标题保持完全一致 */
@@ -1269,7 +1275,7 @@ img.personal-tag-icon-img {
 }
 
 /* ============================================
-   v2.1 文章卡片统一：左文右图 + 摘要 2 行
+   v2.1 文章卡片统一：左文右图，无摘要（清爽风格）
    ============================================ */
 @media (min-width: 768px) {
   .index-card {
@@ -1281,6 +1287,7 @@ img.personal-tag-icon-img {
   border-radius: 8px !important;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  min-height: 10rem; /* 与有图卡片的封面图高度一致，统一所有卡片高度 */
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -1299,12 +1306,17 @@ img.personal-tag-icon-img {
   box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
 }
 
-/* 摘要限制 2 行 */
-.index-excerpt > div {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* 隐藏文章摘要文本块 */
+.index-excerpt {
+  display: none;
+}
+
+/* 卡片文本区上下内边距加大，更宽松舒展
+   由于 .index-info 使用 space-between 布局，
+   隐藏摘要后标题和底部元信息自动分置两端 */
+.index-info {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 /* ============================================
@@ -1314,11 +1326,6 @@ img.personal-tag-icon-img {
   font-size: 1.5rem;
   line-height: 1.35;
   font-weight: 700;
-}
-
-.index-excerpt {
-  font-size: 0.95rem;
-  line-height: 1.65;
 }
 
 .post-metas {
@@ -1336,12 +1343,27 @@ img.personal-tag-icon-img {
   margin-right: auto;
 }
 
-/* 首页文章列表容器与上方 Bento 对齐
+/* 全站容器统一宽度：与 Bento 网格对齐
    Bento 内容区 max-width 为 1200px，Bootstrap container 自带 15px 左右 padding，
-   因此容器设为 1230px，使文章卡片实际宽度与 Bento 网格内容区对齐 */
+   因此容器设为 1230px，使内容实际宽度与首页 Bento 网格对齐 */
 .jio-home-page .container.nopadding-x-md,
-.jio-home-page #board .container {
+.jio-home-page #board .container,
+html:not(.jio-home-page) .container.nopadding-x-md,
+html:not(.jio-home-page) #board .container {
   max-width: 1230px;
+}
+
+/* 文章页（post）：侧边栏从 col-lg-2 缩为 col-lg-1，内容区从 col-lg-8 扩为 col-lg-10
+   使正文区域宽度与首页 1200px 对齐（10/12 * 1440 = 1200） */
+@media (min-width: 992px) {
+  .row:has(#board-ctn) > .side-col.col-lg-2 {
+    flex: 0 0 8.33333%;
+    max-width: 8.33333%;
+  }
+  .row:has(#board-ctn) > .col-lg-8.nopadding-x-md {
+    flex: 0 0 83.33333%;
+    max-width: 83.33333%;
+  }
 }
 
 /* 首页文章列表大卡片：与 Bento 单元格保持一致的圆角、边框、阴影与内边距 */
@@ -1349,8 +1371,19 @@ img.personal-tag-icon-img {
   background: #fff;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
   padding: 20px;
+}
+
+/* 覆盖 Fluid 主题 #board 的重阴影：原值 0 17px 50px rgba(0,0,0,0.19) 过重，全站统一 */
+#board {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* 覆盖 Fluid 主题文章封面图重阴影：改为与 Bento 风格一致的极轻阴影 */
+.jio-home-page .index-img img {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .jio-home-page #board .col-12.col-md-10 {
@@ -1488,7 +1521,7 @@ img.personal-tag-icon-img {
 [data-user-color-scheme="dark"] .jio-home-page #board .container {
   background: #252d38;
   border-color: #364151;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 [data-user-color-scheme="dark"] .jio-section-header {
