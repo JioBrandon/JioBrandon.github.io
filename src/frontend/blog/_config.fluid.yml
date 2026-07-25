@@ -168,11 +168,11 @@ open_graph:
 footer:
   content: "
     <div style=\"line-height: 1.8;\">
-      <div>&copy; 2017 - 2026 <strong>Jio_Brandon</strong></div>
+      <div>&copy; 2017 - 2026  By <strong>Jio_Brandon</strong> ♥️ </div>
       <div style=\"color: #718096; font-size: 0.85rem;\">LLM / Agent 开发探索 &amp; 游戏日常记录</div>
       <div style=\"color: #a0aec0; font-size: 0.75rem;\">
         Powered by <a href=\"https://hexo.io\" target=\"_blank\" rel=\"nofollow noopener\" style=\"color: #a0aec0;\">Hexo</a>
-        &amp; <a href=\"https://github.com/fluid-dev/hexo-theme-fluid\" target=\"_blank\" rel=\"nofollow noopener\" style=\"color: #a0aec0;\">Fluid</a>
+        | 🎨 Theme by <a href=\"https://github.com/fluid-dev/hexo-theme-fluid\" target=\"_blank\" rel=\"nofollow noopener\" style=\"color: #a0aec0;\">Fluid</a>
       </div>
     </div>
   "
