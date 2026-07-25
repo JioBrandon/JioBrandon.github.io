@@ -20,14 +20,21 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
   var config = hexo.config;
   var urlFor = hexo.extend.helper.get('url_for').bind(hexo);
 
-  // 首页 html 增加 scroll-snap 吸附标识类
-  html = html.replace(/<html /, '<html class="jio-snap-page" ');
+  // 首页 html 增加标识类，供 CSS 针对性设置首页布局（如文章列表与 Bento 对齐）
+  html = html.replace(/<html /, '<html class="jio-home-page" ');
 
   var bentoHtml = buildBento();
 
   // 将 Bento 区域注入到 <main> 起始标签之后（位于 #board 文章列表之前）
   html = html.replace(/<main>\s*<div class="container nopadding-x-md">/,
     '<main>\n' + bentoHtml + '\n      <div class="container nopadding-x-md">');
+
+  // 给文章列表区域添加「全部文章」标题
+  var sectionHeader = '<div class="jio-section-header"><i class="iconfont icon-articles"></i><span>全部文章</span></div>';
+  html = html.replace(
+    /<h1 style="display: none">/,
+    sectionHeader + '\n                <h1 style="display: none">'
+  );
 
   return html;
 
@@ -52,9 +59,17 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
     var posts = (hexo.model('Post').sort('-date').data || [])
       .filter(function (p) { return p.layout === 'post' || !p.layout; });
 
-    // 管理员手动置顶：sticky 数值越大优先级越高
-    var stickyPosts = posts.filter(function (p) { return p.sticky > 0; })
-      .sort(function (a, b) { return b.sticky - a.sticky; });
+    // 管理员手动置顶：兼容 sticky 与 top 两种标记，数值越大优先级越高
+    function getTopValue(p) {
+      if (typeof p.sticky === 'number' && p.sticky > 0) return p.sticky;
+      if (p.sticky === true) return 1;
+      if (typeof p.top === 'number' && p.top > 0) return p.top;
+      if (p.top === true) return 1;
+      return 0;
+    }
+
+    var stickyPosts = posts.filter(function (p) { return getTopValue(p) > 0; })
+      .sort(function (a, b) { return getTopValue(b) - getTopValue(a); });
     var featured = stickyPosts.length > 0 ? stickyPosts[0] : posts[0];
 
     if (!featured) return '<div class="jio-bento-cell jio-bento-featured"><div class="jio-bento-empty">暂无文章</div></div>';

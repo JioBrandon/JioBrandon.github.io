@@ -1,6 +1,19 @@
+/* 引入霞鹜文楷（LXGW WenKai）用于标题 */
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
+
 /* ============================================
    Jio_Brandon 博客自定义样式
    ============================================ */
+
+/* ----- 标题字体：霞鹜文楷 ----- */
+h1, h2, h3, h4, h5, h6,
+.index-header,
+.jio-bento-cell-title,
+.jio-section-header,
+.jio-featured-title,
+.about-card-title {
+  font-family: 'LXGW WenKai', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
 
 /* ----- 首页 Loading 动画 -----
    打开网页后先显示白色背景 + 流式文字，文字逐个出现再逐个消失，然后背景图淡入
@@ -206,8 +219,26 @@ html.scrollbar-visible {
 
 /* ----- 内容区顶部间距缩减 ----- */
 #board {
-  padding-top: 1.2rem;
+  padding-top: 0;
   padding-bottom: 2rem;
+}
+
+/* 首页文章列表区域标题，与 Bento 卡片标题保持完全一致 */
+.jio-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3c4858;
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
+}
+
+.jio-section-header i {
+  color: var(--jio-primary);
+  font-size: 1.1rem;
 }
 
 /* ----- 文章卡片美化 ----- */
@@ -404,302 +435,6 @@ img.personal-tag-icon-img {
 }
 
 /* ============================================
-   首页双栏布局 + 置顶轮播 + 右侧栏
-   ============================================ */
-
-/* 替换 Bootstrap col-md-10 的宽度限制，为侧栏腾出空间 */
-.jio-index-col {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-/* 双栏布局容器 */
-.jio-index-layout {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
-.jio-main-column {
-  flex: 1;
-  min-width: 0;
-}
-
-/* 右侧栏 */
-.jio-sidebar {
-  width: 320px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* 侧栏卡片 */
-.jio-sidebar-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.3s ease;
-}
-
-.jio-sidebar-card:hover {
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
-}
-
-.jio-sidebar-card-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #3B82F6;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* --- 作者卡片 --- */
-.jio-author-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto 12px;
-  border: 3px solid rgba(59, 130, 246, 0.15);
-}
-
-.jio-author-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 6px;
-}
-
-.jio-author-intro {
-  font-size: 0.8rem;
-  color: #718096;
-  text-align: center;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-
-.jio-author-socials {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  font-size: 1.3rem;
-}
-
-.jio-author-socials a {
-  color: #718096;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.jio-author-socials a:hover {
-  color: #3B82F6;
-  transform: translateY(-2px);
-}
-
-/* --- 分类列表（可展开） --- */
-.jio-cat-list {
-  padding: 0;
-  margin: 0;
-}
-
-.jio-cat-group {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.jio-cat-group:last-child {
-  border-bottom: none;
-}
-
-.jio-cat-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  cursor: pointer;
-  list-style: none;
-  outline: none;
-  user-select: none;
-}
-
-.jio-cat-summary::-webkit-details-marker {
-  display: none;
-}
-
-.jio-cat-summary::marker {
-  display: none;
-  content: '';
-}
-
-.jio-cat-summary::before {
-  content: '\25B8';
-  display: inline-block;
-  font-size: 0.7rem;
-  margin-right: 6px;
-  transition: transform 0.2s ease;
-  color: #718096;
-  flex-shrink: 0;
-}
-
-.jio-cat-group[open] > .jio-cat-summary::before {
-  transform: rotate(90deg);
-}
-
-.jio-cat-name {
-  color: #3c4858;
-  font-size: 0.88rem;
-  font-weight: 500;
-  flex: 1;
-}
-
-.jio-cat-summary:hover .jio-cat-name {
-  color: #3B82F6;
-}
-
-.jio-cat-count {
-  background: #f0f4ff;
-  color: #718096;
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  flex-shrink: 0;
-}
-
-.jio-cat-posts {
-  list-style: none;
-  padding: 0 0 8px 18px;
-  margin: 0;
-}
-
-.jio-cat-posts li {
-  padding: 3px 0;
-}
-
-.jio-cat-posts li a {
-  color: #718096;
-  font-size: 0.8rem;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.jio-cat-posts li a:hover {
-  color: #3B82F6;
-}
-
-/* --- 标签云 --- */
-.jio-tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.jio-tag-item {
-  display: inline-block;
-  padding: 4px 10px;
-  background: #f0f6ff;
-  color: #3c4858;
-  font-size: 0.78rem;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.jio-tag-item:hover {
-  background: #3B82F6;
-  color: #fff;
-  text-decoration: none;
-}
-
-/* ============================================
-   暗色模式适配
-   ============================================ */
-[data-user-color-scheme="dark"] .jio-sidebar-card {
-  background: #252d38;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
-[data-user-color-scheme="dark"] .jio-sidebar-card:hover {
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
-}
-
-[data-user-color-scheme="dark"] .index-card {
-  background: #252d38;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
-[data-user-color-scheme="dark"] .index-card:hover {
-  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
-}
-
-[data-user-color-scheme="dark"] .jio-author-name {
-  color: #c4c6c9;
-}
-
-[data-user-color-scheme="dark"] .jio-author-intro {
-  color: #a7a9ad;
-}
-
-[data-user-color-scheme="dark"] .jio-cat-group {
-  border-bottom-color: #364151;
-}
-
-[data-user-color-scheme="dark"] .jio-cat-name {
-  color: #c4c6c9;
-}
-
-[data-user-color-scheme="dark"] .jio-cat-count {
-  background: #364151;
-  color: #a7a9ad;
-}
-
-[data-user-color-scheme="dark"] .jio-tag-item {
-  background: #364151;
-  color: #c4c6c9;
-}
-
-[data-user-color-scheme="dark"] .jio-tag-item:hover {
-  background: #3B82F6;
-  color: #fff;
-}
-
-[data-user-color-scheme="dark"] .jio-author-socials a {
-  color: #a7a9ad;
-}
-
-[data-user-color-scheme="dark"] .jio-author-socials a:hover {
-  color: #4a9eff;
-}
-
-/* ============================================
-   首页双栏响应式
-   ============================================ */
-@media (max-width: 900px) {
-  .jio-index-layout {
-    flex-direction: column;
-  }
-
-  .jio-sidebar {
-    width: 100%;
-    position: static;
-  }
-
-}
-
-/* ============================================
    关于页卡片式模块样式
    ============================================ */
 
@@ -815,6 +550,13 @@ img.personal-tag-icon-img {
 
 [data-user-color-scheme="dark"] .about-info-value {
   color: #c4c6c9;
+}
+
+/* 暗色模式下个人标签卡片：明日方舟深色渐变会融进卡片背景，调亮并加边框 */
+[data-user-color-scheme="dark"] .personal-tag-item[href*="明日方舟"] {
+  background: linear-gradient(135deg, #475569 0%, #1e293b 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* ----- 响应式优化 ----- */
@@ -1058,29 +800,8 @@ img.personal-tag-icon-img {
   --jio-link: #06B6D4;
   /* 已读链接色 */
   --jio-visited: #8B5CF6;
-  /* 正文阅读宽度 */
-  --jio-content-width: 760px;
-  --jio-post-width: 720px;
-}
-
-/* ============================================
-   v2.1 首屏吸附滚动（Banner ↔ Bento）
-   ============================================ */
-html.jio-snap-page {
-  scroll-snap-type: y mandatory;
-}
-
-html.jio-snap-page .header-inner,
-html.jio-snap-page .jio-bento-wrap {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-/* 小屏设备内容易溢出，关闭强制吸附 */
-@media (max-width: 900px) {
-  html.jio-snap-page {
-    scroll-snap-type: none;
-  }
+  /* 正文阅读宽度：恢复到接近主题原版的 960px */
+  --jio-post-width: 960px;
 }
 
 /* ============================================
@@ -1089,9 +810,9 @@ html.jio-snap-page .jio-bento-wrap {
 .jio-bento-wrap {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  padding: 72px 16px 40px;
+  padding: 72px 16px 16px;
   box-sizing: border-box;
 }
 
@@ -1569,7 +1290,13 @@ html.jio-snap-page .jio-bento-wrap {
 }
 
 [data-user-color-scheme="dark"] .index-card {
+  background: #252d38;
   border-color: #364151;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .index-card:hover {
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
 }
 
 /* 摘要限制 2 行 */
@@ -1599,22 +1326,36 @@ html.jio-snap-page .jio-bento-wrap {
 }
 
 /* ============================================
-   v2.1 正文阅读宽度（全站 720-760px）
-   首页已被 index-layout.js 替换为双栏布局，不受影响
+   v2.1 正文阅读宽度
    ============================================ */
-@media (min-width: 768px) {
-  #board .col-12.col-md-10 {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: var(--jio-content-width);
-  }
-}
-
-/* 文章页正文限宽 720px */
+/* 文章页正文限宽 720px，保证阅读体验；
+   首页、分类页等列表容器不额外限宽，避免 Bento 下方出现大面积空白 */
 .post-content {
   max-width: var(--jio-post-width);
   margin-left: auto;
   margin-right: auto;
+}
+
+/* 首页文章列表容器与上方 Bento 对齐
+   Bento 内容区 max-width 为 1200px，Bootstrap container 自带 15px 左右 padding，
+   因此容器设为 1230px，使文章卡片实际宽度与 Bento 网格内容区对齐 */
+.jio-home-page .container.nopadding-x-md,
+.jio-home-page #board .container {
+  max-width: 1230px;
+}
+
+/* 首页文章列表大卡片：与 Bento 单元格保持一致的圆角、边框、阴影与内边距 */
+.jio-home-page #board .container {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+}
+
+.jio-home-page #board .col-12.col-md-10 {
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 /* ============================================
@@ -1642,7 +1383,8 @@ html.jio-snap-page .jio-bento-wrap {
   flex-wrap: wrap;
   gap: 8px;
   max-width: var(--jio-post-width);
-  margin: 0 auto 16px;
+  margin: 0 auto 24px;
+  padding-top: 24px;
   font-size: 0.82rem;
 }
 
@@ -1742,43 +1484,16 @@ html.jio-snap-page .jio-bento-wrap {
   color: #fff;
 }
 
-/* ============================================
-   v2.1 侧边栏视觉权重降低 + 查看全部分类入口
-   ============================================ */
-.jio-sidebar-card {
-  background: #f8fafc;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: none;
-}
-
-.jio-sidebar-card:hover {
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
-}
-
-[data-user-color-scheme="dark"] .jio-sidebar-card {
-  background: #1f2733;
+/* 暗色模式：首页文章列表大卡片 */
+[data-user-color-scheme="dark"] .jio-home-page #board .container {
+  background: #252d38;
   border-color: #364151;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
-.jio-cat-more {
-  display: block;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(0, 0, 0, 0.08);
-  font-size: 0.78rem;
-  color: var(--jio-primary);
-  text-decoration: none;
-  text-align: center;
-  transition: color 0.2s ease;
-}
-
-.jio-cat-more:hover {
-  color: var(--jio-primary-dark);
-  text-decoration: none;
-}
-
-[data-user-color-scheme="dark"] .jio-cat-more {
-  border-top-color: #364151;
+[data-user-color-scheme="dark"] .jio-section-header {
+  color: #c4c6c9;
+  border-bottom-color: rgba(59, 130, 246, 0.2);
 }
 
 /* ============================================
