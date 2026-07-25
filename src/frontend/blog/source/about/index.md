@@ -65,7 +65,7 @@ layout: about
 <div class="about-card" id="about-music">
   <h3 class="about-card-title"><i class="iconfont icon-music"></i> 音乐盒</h3>
   <div class="about-card-body" style="min-height: 100px;">
-    {% meting "17987846132" "netease" "playlist" "theme:#1E90FF" "preload:none" "order:random" %}
+    {% meting "17987846132" "netease" "playlist" "theme:#3B82F6" "preload:none" "order:random" %}
   </div>
 </div>
 

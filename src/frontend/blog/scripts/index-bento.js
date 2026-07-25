@@ -1,7 +1,7 @@
 /**
  * v2.1 首页 Bento 区域注入脚本
  *
- * 方案 B：Banner 首屏（100vh）+ Bento 首页区域（100vh，scroll-snap 吸附）+ 完整文章列表
+ * 方案 B：Banner 首屏（100vh）+ Bento 首页区域（100vh）+ 完整文章列表
  *
  * Bento 区域包含 6 个格子：
  * - 精选文章：管理员手动置顶（sticky > 0）的第一篇，未设置置顶则 fallback 最新一篇

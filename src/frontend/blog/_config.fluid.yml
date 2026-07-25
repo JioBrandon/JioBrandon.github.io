@@ -390,7 +390,7 @@ category:
   banner_img_height: 60
   banner_mask_alpha: 0.3
   order_by: "-length"
-  collapse_depth: 1
+  collapse_depth: 0
   post_order_by: "-date"
   post_limit: 10
 tag:

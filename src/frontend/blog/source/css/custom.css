@@ -152,16 +152,6 @@ h1, h2, h3, h4, h5, h6,
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Loading 文字与 #subtitle 位置对齐 */
-#loading-text {
-  font-family: 'Courier New', 'Noto Sans SC', monospace;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  letter-spacing: 0.12em;
-  white-space: nowrap;
-}
-
 /* ----- 防止布局偏移：为滚动条预留空间（macOS 覆盖式滚动条不受影响） ----- */
 html {
   scrollbar-gutter: stable;
@@ -223,6 +213,9 @@ html.scrollbar-visible {
 #board {
   padding-top: 0;
   padding-bottom: 2rem;
+  /* 覆盖 Fluid 主题 #board 的重阴影：原值 0 17px 50px rgba(0,0,0,0.19) 过重 */
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 html:not(.jio-home-page) #board {
@@ -245,22 +238,6 @@ html:not(.jio-home-page) #board {
 .jio-section-header i {
   color: var(--jio-primary);
   font-size: 1.1rem;
-}
-
-/* ----- 文章卡片美化 ----- */
-.index-card {
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-bottom: 20px;
-  padding: 0;
-}
-
-.index-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
 }
 
 .post-item {
@@ -463,16 +440,9 @@ img.personal-tag-icon-img {
 
 .about-card {
   background: #fff;
-  border-radius: 16px;
   padding: 12px 24px 24px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.about-card:hover {
-  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.12);
-  transform: translateY(-2px);
 }
 
 .about-card:last-child {
@@ -1288,6 +1258,10 @@ img.personal-tag-icon-img {
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
   min-height: 10rem; /* 与有图卡片的封面图高度一致，统一所有卡片高度 */
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -1335,7 +1309,7 @@ img.personal-tag-icon-img {
 /* ============================================
    v2.1 正文阅读宽度
    ============================================ */
-/* 文章页正文限宽 720px，保证阅读体验；
+/* 文章页正文限宽 960px，保证阅读体验；
    首页、分类页等列表容器不额外限宽，避免 Bento 下方出现大面积空白 */
 .post-content {
   max-width: var(--jio-post-width);
@@ -1373,12 +1347,6 @@ html:not(.jio-home-page) #board .container {
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: none;
   padding: 20px;
-}
-
-/* 覆盖 Fluid 主题 #board 的重阴影：原值 0 17px 50px rgba(0,0,0,0.19) 过重，全站统一 */
-#board {
-  -webkit-box-shadow: none;
-  box-shadow: none;
 }
 
 /* 覆盖 Fluid 主题文章封面图重阴影：改为与 Bento 风格一致的极轻阴影 */
@@ -1517,8 +1485,10 @@ html:not(.jio-home-page) #board .container {
   color: #fff;
 }
 
-/* 暗色模式：首页文章列表大卡片 */
-[data-user-color-scheme="dark"] .jio-home-page #board .container {
+/* 暗色模式：首页文章列表大卡片
+   .jio-home-page 与 data-user-color-scheme 均位于 <html> 同一元素上，
+   必须用并列选择器（无空格），不可用后代组合符（会无法匹配） */
+html[data-user-color-scheme="dark"].jio-home-page #board .container {
   background: #252d38;
   border-color: #364151;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -1527,6 +1497,94 @@ html:not(.jio-home-page) #board .container {
 [data-user-color-scheme="dark"] .jio-section-header {
   color: #c4c6c9;
   border-bottom-color: rgba(59, 130, 246, 0.2);
+}
+
+/* 暗色模式：音乐播放器 APlayer（APlayer 原生无暗色模式，全量覆盖） */
+[data-user-color-scheme="dark"] .aplayer {
+  background: #252d38;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+/* 分隔线 */
+[data-user-color-scheme="dark"] .aplayer.aplayer-withlist .aplayer-info {
+  border-bottom-color: #364151;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info {
+  border-top-color: #364151;
+}
+/* 歌曲标题 & 作者 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  color: #d0d2d5;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  color: #858b94;
+}
+/* 进度条：轨道底层 → 深色 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
+  background: #3d4754;
+}
+/* 进度条：已缓冲部分（原生 #aaa → 深色） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded {
+  background: #4b5565;
+}
+/* 时间 & 图标 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  color: #858b94;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
+  fill: #858b94;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon:hover path {
+  fill: #b0b4bc;
+}
+/* 音量条：轨道底层（原生 #aaa → 深色） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
+  background: #3d4754;
+}
+/* 播放列表 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-list {
+  background: #1e2630;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li {
+  border-top-color: #364151;
+  color: #b0b4bc;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li:hover {
+  background: #2a3340;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li.aplayer-list-light {
+  background: #2a3340;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li .aplayer-list-index,
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li .aplayer-list-author {
+  color: #858b94;
+}
+/* 播放列表滚动条 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb {
+  background-color: #4b5565;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb:hover {
+  background-color: #5d6a7c;
+}
+/* SVG 图标填充 */
+[data-user-color-scheme="dark"] .aplayer svg circle,
+[data-user-color-scheme="dark"] .aplayer svg path {
+  fill: #d0d2d5;
+}
+/* 歌词区域上下渐变遮罩（原生用 #fff 渐变，暗色下会露白条） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-lrc:before {
+  background: linear-gradient(180deg, #252d38 0, rgba(37, 45, 56, 0));
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-lrc:after {
+  background: linear-gradient(180deg, rgba(37, 45, 56, 0) 0, rgba(37, 45, 56, 0.8));
+}
+/* 迷你模式切换按钮（原生 #e6e6e6） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-miniswitcher {
+  background: #364151;
+}
+/* Toast 通知（原生 #f4f4f5） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-notice {
+  background-color: #3d4754;
+  color: #b0b4bc;
 }
 
 /* ============================================
