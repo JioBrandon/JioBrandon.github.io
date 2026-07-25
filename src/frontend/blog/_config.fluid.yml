@@ -206,7 +206,7 @@ index:
     category: true
     tag: true
   post_sticky:
-    enable: true
+    enable: false
     icon: iconfont icon-top
 post:
   banner_img: /assets/upload-1779293926748-a021fe77.jpg

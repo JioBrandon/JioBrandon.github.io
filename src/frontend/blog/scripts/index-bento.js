@@ -103,7 +103,7 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
 
     return '<div class="jio-bento-cell jio-bento-featured">' +
       '<a href="' + postUrl + '" class="jio-featured-cover"' + coverStyle + '>' +
-      '<span class="jio-featured-badge">精选</span>' +
+      '<span class="jio-featured-badge">置顶</span>' +
       '</a>' +
       '<div class="jio-featured-body">' +
       '<h2 class="jio-featured-title"><a href="' + postUrl + '">' + title + '</a></h2>' +
