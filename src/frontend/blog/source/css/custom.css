@@ -1244,12 +1244,22 @@ img.personal-tag-icon-img {
   background: rgba(6, 182, 212, 0.15);
 }
 
-/* ============================================
-   v2.1 文章卡片统一：左文右图，无摘要（清爽风格）
-   ============================================ */
+/* v2.1 文章卡片统一：左文右图，图片贴合卡片右侧圆角，撑满卡片高度 */
 @media (min-width: 768px) {
   .index-card {
     flex-direction: row-reverse;
+  }
+  .index-img {
+    padding-right: 0;
+  }
+  .index-img a {
+    display: block;
+    height: 100%;
+  }
+  .index-img img {
+    height: 100%;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
   }
 }
 
@@ -1280,17 +1290,46 @@ img.personal-tag-icon-img {
   box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
 }
 
-/* 隐藏文章摘要文本块 */
-.index-excerpt {
-  display: none;
+[data-user-color-scheme="dark"] .index-excerpt {
+  color: #858b94;
 }
 
-/* 卡片文本区上下内边距加大，更宽松舒展
-   由于 .index-info 使用 space-between 布局，
-   隐藏摘要后标题和底部元信息自动分置两端 */
+/* 文章摘要：显示在标题+元信息下方，限2行 */
+.index-excerpt {
+  order: 1;
+  height: auto;               /* 覆盖 Fluid 的固定 3 行高度 */
+  font-size: 0.9rem;
+  color: #718096;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Fluid 主题在子级 div 上设了 line-clamp:3 + line-height:1.4rem，覆盖 */
+.index-excerpt > div {
+  line-height: inherit;
+  -webkit-line-clamp: 2;
+}
+
+/* 无封面卡片：摘要限宽 + 行数对齐 */
+.index-excerpt__noimg {
+  max-height: calc(0.9rem * 1.6 * 2 + 0.1rem);
+}
+
+@media (min-width: 768px) {
+  .index-excerpt__noimg {
+    max-width: 66.67%;  /* 与带封面卡片的 col-md-8 文字区域右边界对齐 */
+  }
+}
+
+/* 卡片文本区：增加上、下、左侧留白，右侧保持 Bootstrap 默认 15px */
 .index-info {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  padding-left: 50px;
 }
 
 /* ============================================
@@ -1347,11 +1386,6 @@ html:not(.jio-home-page) #board .container {
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: none;
   padding: 20px;
-}
-
-/* 覆盖 Fluid 主题文章封面图重阴影：改为与 Bento 风格一致的极轻阴影 */
-.jio-home-page .index-img img {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .jio-home-page #board .col-12.col-md-10 {
