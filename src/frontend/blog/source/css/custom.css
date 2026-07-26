@@ -101,6 +101,17 @@ h1, h2, h3, h4, h5, h6,
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
+/* Dog 图标 - 与搜索/暗色切换按钮尺寸对齐，filter 将黑色图标转为白色 */
+.nav-dog-icon {
+  margin-left: 4px;
+  width: 17px;
+  height: 17px;
+  vertical-align: middle;
+  border-radius: 4px;
+  filter: brightness(0) invert(1);
+  transform: translateY(-1.5px);
+}
+
 /* 滚动到内容区后增强导航栏背景（首页通过 JS 添加 .scrolled） */
 .navbar.scrolled {
   background-color: #3B82F6 !important;
@@ -874,20 +885,31 @@ img.personal-tag-icon-img {
 .jio-bento-latest {
   grid-column: 1 / 3;
   grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 友链 */
 .jio-bento-links {
   grid-column: 3 / 4;
   grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
 }
 
-/* RSS 订阅 */
-.jio-bento-rss {
+/* 文章分类（替换原 RSS 卡片） */
+.jio-bento-categories {
   grid-column: 4 / 5;
   grid-row: 3 / 4;
-  display: block;
-  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 底部三个卡片的 "更多" 按钮对齐到卡片底部 */
+.jio-bento-latest .jio-bento-cell-more,
+.jio-bento-links .jio-bento-cell-more,
+.jio-bento-categories .jio-bento-cell-more {
+  margin-top: auto;
 }
 
 /* --- 精选文章 --- */
@@ -1133,35 +1155,43 @@ img.personal-tag-icon-img {
 }
 
 /* --- RSS 订阅 --- */
-.jio-bento-rss-inner {
+/* 文章分类列表 */
+.jio-bento-cat-list {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.jio-bento-cat-item {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  gap: 6px;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
 }
 
-.jio-bento-rss-icon {
-  font-size: 1.8rem;
-  line-height: 1;
+.jio-bento-cat-item:hover {
+  background: rgba(59, 130, 246, 0.06);
+  text-decoration: none;
 }
 
-.jio-bento-rss-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--jio-accent);
+.jio-bento-cat-name {
+  font-size: 0.82rem;
+  color: #3c4858;
+  font-weight: 500;
 }
 
-.jio-bento-rss-desc {
-  font-size: 0.72rem;
+.jio-bento-cat-count {
+  font-size: 0.7rem;
   color: #a0aec0;
-  line-height: 1.4;
-}
-
-.jio-bento-rss:hover .jio-bento-rss-title {
-  color: #D97706;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 22px;
+  text-align: center;
 }
 
 .jio-bento-empty {
@@ -1189,7 +1219,7 @@ img.personal-tag-icon-img {
   .jio-bento-latest,
   .jio-bento-tags,
   .jio-bento-links,
-  .jio-bento-rss {
+  .jio-bento-categories {
     grid-column: 1 / -1;
     grid-row: auto;
   }
@@ -1242,6 +1272,19 @@ img.personal-tag-icon-img {
 
 [data-user-color-scheme="dark"] .jio-bento-link-item:hover {
   background: rgba(6, 182, 212, 0.15);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-name {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-count {
+  color: #a7a9ad;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-item:hover {
+  background: rgba(59, 130, 246, 0.12);
 }
 
 /* v2.1 文章卡片统一：左文右图，图片贴合卡片右侧圆角，撑满卡片高度 */

@@ -9,7 +9,7 @@
  * - 最新文章 5 篇：按日期倒序，可包含精选文章
  * - 热门标签：按标签下文章数量倒序
  * - 友链：取 _config.fluid.yml 中 links.items 前 6 个
- * - RSS 订阅入口
+ * - 文章分类：按文章数量倒序展示分类列表
  *
  * 仅在首页第一页（index.html）注入；分页页面不注入。
  */
@@ -49,7 +49,7 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
       buildLatest() +
       buildTags() +
       buildLinks() +
-      buildRss() +
+      buildCategories() +
       '</div>' +
       '</section>';
   }
@@ -209,15 +209,25 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
       '</div>';
   }
 
-  // --- RSS 订阅 ---
-  function buildRss() {
-    return '<a class="jio-bento-cell jio-bento-rss" href="' + urlFor('/atom.xml') + '" target="_blank" rel="noopener">' +
-      '<div class="jio-bento-rss-inner">' +
-      '<span class="jio-bento-rss-icon">📡</span>' +
-      '<span class="jio-bento-rss-title">RSS 订阅</span>' +
-      '<span class="jio-bento-rss-desc">订阅博客，第一时间获取更新</span>' +
-      '</div>' +
-      '</a>';
+  // --- 文章分类（按文章数量倒序，替换原 RSS 卡片） ---
+  function buildCategories() {
+    var categories = (hexo.model('Category').sort('name').data || [])
+      .filter(function (c) { return c.posts.length > 0; })
+      .sort(function (a, b) { return b.posts.length - a.posts.length; });
+
+    var items = '';
+    categories.forEach(function (cat) {
+      items += '<a class="jio-bento-cat-item" href="' + urlFor(cat.path) + '">' +
+        '<span class="jio-bento-cat-name">' + escHtml(cat.name) + '</span>' +
+        '<span class="jio-bento-cat-count">' + cat.posts.length + '</span>' +
+        '</a>';
+    });
+
+    return '<div class="jio-bento-cell jio-bento-categories">' +
+      '<h3 class="jio-bento-cell-title"><i class="iconfont icon-archive-fill"></i>文章分类</h3>' +
+      '<div class="jio-bento-cat-list">' + items + '</div>' +
+      '<a class="jio-bento-cell-more" href="' + urlFor('/categories/') + '">全部分类 →</a>' +
+      '</div>';
   }
 
   // ============================================
