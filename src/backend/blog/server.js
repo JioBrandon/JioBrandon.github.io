@@ -174,7 +174,7 @@ function autoCommitAndPush() {
   const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const msg = `auto: 服务器管理面板更新 [${now}]`;
 
-  const gitAdd = spawn('git', ['add', '-A'], { cwd: REPO_ROOT, shell: true });
+  const gitAdd = spawn('git', ['add', '-A'], { cwd: REPO_ROOT });
   let addErr = '';
   gitAdd.stderr.on('data', d => { addErr += d.toString(); });
   gitAdd.on('close', addCode => {
@@ -183,13 +183,13 @@ function autoCommitAndPush() {
       return;
     }
     // 先检查是否有变更
-    const diff = spawn('git', ['diff', '--cached', '--quiet'], { cwd: REPO_ROOT, shell: true });
+    const diff = spawn('git', ['diff', '--cached', '--quiet'], { cwd: REPO_ROOT });
     diff.on('close', diffCode => {
       if (diffCode === 0) {
         console.log('[git] 无变更，跳过提交');
         return;
       }
-      const gitCommit = spawn('git', ['commit', '-m', msg], { cwd: REPO_ROOT, shell: true });
+      const gitCommit = spawn('git', ['commit', '-m', msg], { cwd: REPO_ROOT });
       let commitErr = '';
       gitCommit.stderr.on('data', d => { commitErr += d.toString(); });
       gitCommit.on('close', commitCode => {
@@ -198,7 +198,7 @@ function autoCommitAndPush() {
           return;
         }
         console.log('[git] commit 成功 → push ...');
-        const gitPush = spawn('git', ['push', 'origin', 'master'], { cwd: REPO_ROOT, shell: true });
+        const gitPush = spawn('git', ['push', 'origin', 'master'], { cwd: REPO_ROOT });
         let pushErr = '';
         gitPush.stdout.on('data', d => { process.stdout.write(d.toString()); });
         gitPush.stderr.on('data', d => { pushErr += d.toString(); });
