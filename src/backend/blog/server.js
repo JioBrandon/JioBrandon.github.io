@@ -128,6 +128,9 @@ function serializeFrontMatter(frontMatter, body) {
 let building = false;
 let pending = false;
 
+// 仓库根目录（用于 git 操作）
+const REPO_ROOT = path.resolve(BLOG_DIR, '..', '..', '..');
+
 function triggerBuild() {
   if (building) {
     pending = true;
@@ -154,13 +157,55 @@ function triggerBuild() {
     building = false;
     const elapsed = ((Date.now() - start) / 1000).toFixed(1);
     if (code === 0) {
-      console.log(`[build] 完成 (${elapsed}s)`);
+      console.log(`[build] hexo generate 完成 (${elapsed}s)`);
+
+      // 构建成功后自动提交并推送到远程仓库
+      autoCommitAndPush();
     } else {
-      console.error(`[build] 失败 (exit ${code}): ${stderr || stdout}`);
+      console.error(`[build] hexo generate 失败 (exit ${code}): ${stderr || stdout}`);
     }
     if (pending) {
       setTimeout(triggerBuild, 500);
     }
+  });
+}
+
+function autoCommitAndPush() {
+  const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+  const msg = `auto: 服务器管理面板更新 [${now}]`;
+
+  const gitAdd = spawn('git', ['add', '-A'], { cwd: REPO_ROOT, shell: true });
+  gitAdd.on('close', addCode => {
+    if (addCode !== 0) {
+      console.error('[git] add 失败');
+      return;
+    }
+    // 先检查是否有变更
+    const diff = spawn('git', ['diff', '--cached', '--quiet'], { cwd: REPO_ROOT, shell: true });
+    diff.on('close', diffCode => {
+      if (diffCode === 0) {
+        console.log('[git] 无变更，跳过提交');
+        return;
+      }
+      const gitCommit = spawn('git', ['commit', '-m', msg], { cwd: REPO_ROOT, shell: true });
+      gitCommit.on('close', commitCode => {
+        if (commitCode !== 0) {
+          console.error('[git] commit 失败');
+          return;
+        }
+        console.log('[git] commit 成功 → push ...');
+        const gitPush = spawn('git', ['push', 'origin', 'master'], { cwd: REPO_ROOT, shell: true });
+        gitPush.stdout.on('data', d => { process.stdout.write(d.toString()); });
+        gitPush.stderr.on('data', d => { process.stderr.write(d.toString()); });
+        gitPush.on('close', pushCode => {
+          if (pushCode === 0) {
+            console.log('[git] push 成功');
+          } else {
+            console.error(`[git] push 失败 (exit ${pushCode})`);
+          }
+        });
+      });
+    });
   });
 }
 
