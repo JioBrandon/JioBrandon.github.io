@@ -105,7 +105,7 @@ theme: fluid
 steam:
   enable: true
   steamId: '76561198410114978'
-  apiKey: 'AB07EDC06DB8B6F2A9BA858A4E164379'
+  apiKey: 'YOUR_STEAM_API_KEY'
   path: steamgames/index.html
   title: Steam游戏库
   quote: '欢迎来到我的游戏世界'

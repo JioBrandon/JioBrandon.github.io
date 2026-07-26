@@ -197,10 +197,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS
+// CORS — 仅允许博客域名和本地开发环境
+const ALLOWED_ORIGINS = [
+  'https://jiobrandon.github.io',
+  'http://localhost:4000',
+  'http://localhost:3000',
+  'http://127.0.0.1:4000',
+  'http://127.0.0.1:3000',
+];
+
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+  }
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   if (req.method === 'OPTIONS') return res.sendStatus(200);
@@ -228,11 +239,48 @@ const upload = multer({
 });
 
 // ============================================
+// 登录速率限制（简单内存实现，无需额外依赖）
+// ============================================
+const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 分钟窗口
+const LOGIN_MAX_ATTEMPTS = 10;           // 最多 10 次尝试
+const loginAttempts = new Map();         // IP → { count, resetAt }
+
+// 定期清理过期记录，防止内存泄漏
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, record] of loginAttempts) {
+    if (now > record.resetAt) loginAttempts.delete(ip);
+  }
+}, 5 * 60 * 1000);
+
+function loginRateLimiter(req, res, next) {
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  let record = loginAttempts.get(ip);
+
+  if (!record || now > record.resetAt) {
+    record = { count: 0, resetAt: now + LOGIN_WINDOW_MS };
+    loginAttempts.set(ip, record);
+  }
+
+  record.count++;
+
+  if (record.count > LOGIN_MAX_ATTEMPTS) {
+    const retryAfter = Math.ceil((record.resetAt - now) / 1000 / 60);
+    return res.status(429).json({
+      error: `登录尝试过于频繁，请 ${retryAfter} 分钟后重试`,
+    });
+  }
+
+  next();
+}
+
+// ============================================
 // API 路由
 // ============================================
 
 // --- 认证 ---
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginRateLimiter, async (req, res) => {
   try {
     const { password } = req.body;
     if (!password) {
