@@ -158,9 +158,6 @@
       '</div>';
     document.body.appendChild(overlay);
 
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) removeOverlay(overlay);
-    });
 
     var pwdInput = document.getElementById('admin-login-pwd');
     var errorEl = document.getElementById('admin-login-error');
@@ -446,9 +443,6 @@
         if (file) uploadBanner(file, overlay, preview, banners);
       });
 
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
-      });
       document.getElementById('banner-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
       });
@@ -620,9 +614,6 @@
     document.getElementById('editor-cancel').addEventListener('click', function() {
       removeOverlay(overlay);
     });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) removeOverlay(overlay);
-    });
 
     var textarea = document.getElementById('editor-textarea');
     var previewEl = document.getElementById('editor-preview');
@@ -711,9 +702,6 @@
         '</div>';
       document.body.appendChild(overlay);
 
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
-      });
       document.getElementById('confirm-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
       });
@@ -779,9 +767,6 @@
       });
       document.getElementById('editor-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
-      });
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
       });
 
       var textarea = document.getElementById('editor-textarea');
@@ -880,9 +865,6 @@
       });
       document.getElementById('cat-mgr-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
-      });
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
       });
 
       document.getElementById('cat-mgr-save').addEventListener('click', function() {
@@ -985,9 +967,6 @@
       document.getElementById('sticky-mgr-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
       });
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
-      });
 
       document.getElementById('sticky-mgr-save').addEventListener('click', function() {
         var btn = this;
@@ -1083,9 +1062,6 @@
     document.getElementById('editor-cancel').addEventListener('click', function() {
       removeOverlay(overlay);
     });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) removeOverlay(overlay);
-    });
 
     var textarea = document.getElementById('editor-textarea');
     var previewEl = document.getElementById('editor-preview');
@@ -1172,9 +1148,6 @@
       });
       document.getElementById('editor-cancel').addEventListener('click', function() {
         removeOverlay(overlay);
-      });
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) removeOverlay(overlay);
       });
 
       var textarea = document.getElementById('editor-textarea');
