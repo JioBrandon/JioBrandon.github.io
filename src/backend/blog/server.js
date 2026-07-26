@@ -175,9 +175,11 @@ function autoCommitAndPush() {
   const msg = `auto: 服务器管理面板更新 [${now}]`;
 
   const gitAdd = spawn('git', ['add', '-A'], { cwd: REPO_ROOT, shell: true });
+  let addErr = '';
+  gitAdd.stderr.on('data', d => { addErr += d.toString(); });
   gitAdd.on('close', addCode => {
     if (addCode !== 0) {
-      console.error('[git] add 失败');
+      console.error(`[git] add 失败 (exit ${addCode}): ${addErr}`);
       return;
     }
     // 先检查是否有变更
@@ -188,20 +190,23 @@ function autoCommitAndPush() {
         return;
       }
       const gitCommit = spawn('git', ['commit', '-m', msg], { cwd: REPO_ROOT, shell: true });
+      let commitErr = '';
+      gitCommit.stderr.on('data', d => { commitErr += d.toString(); });
       gitCommit.on('close', commitCode => {
         if (commitCode !== 0) {
-          console.error('[git] commit 失败');
+          console.error(`[git] commit 失败 (exit ${commitCode}): ${commitErr}`);
           return;
         }
         console.log('[git] commit 成功 → push ...');
         const gitPush = spawn('git', ['push', 'origin', 'master'], { cwd: REPO_ROOT, shell: true });
+        let pushErr = '';
         gitPush.stdout.on('data', d => { process.stdout.write(d.toString()); });
-        gitPush.stderr.on('data', d => { process.stderr.write(d.toString()); });
+        gitPush.stderr.on('data', d => { pushErr += d.toString(); });
         gitPush.on('close', pushCode => {
           if (pushCode === 0) {
             console.log('[git] push 成功');
           } else {
-            console.error(`[git] push 失败 (exit ${pushCode})`);
+            console.error(`[git] push 失败 (exit ${pushCode}): ${pushErr}`);
           }
         });
       });
