@@ -25,6 +25,10 @@ on:
       - 'src/frontend/blog/package.json'   # 依赖变更
   workflow_dispatch:                        # 允许手动触发
 
+# GITHUB_TOKEN 需要有写入权限才能推送 main 分支
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
