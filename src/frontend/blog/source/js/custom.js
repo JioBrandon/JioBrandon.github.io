@@ -312,4 +312,16 @@
     }
 
   });
+
+  // ----- 在线管理后台 API 地址配置 -----
+  // 本地开发时自动使用 localhost，部署后指向服务器
+  (function() {
+    var isLocalDev = window.location.hostname === 'localhost' ||
+                     window.location.hostname === '127.0.0.1';
+    if (!isLocalDev) {
+      // 直连服务器 API（未配置 Nginx 反向代理时带端口号）
+      window.__ADMIN_API_BASE__ = 'http://42.193.153.160:3000';
+    }
+  })();
+
 })();

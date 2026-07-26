@@ -204,6 +204,9 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://127.0.0.1:4000',
   'http://127.0.0.1:3000',
+  // 服务器直连（部署后管理面板访问）
+  'http://42.193.153.160:3000',
+  'http://42.193.153.160',
 ];
 
 app.use((req, res, next) => {
