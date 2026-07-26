@@ -319,8 +319,8 @@
     var isLocalDev = window.location.hostname === 'localhost' ||
                      window.location.hostname === '127.0.0.1';
     if (!isLocalDev) {
-      // 直连服务器 API（未配置 Nginx 反向代理时带端口号）
-      window.__ADMIN_API_BASE__ = 'http://42.193.153.160:3000';
+      // Nginx 反向代理已处理 :3000 → :80，直接用当前域名即可
+      window.__ADMIN_API_BASE__ = window.location.origin;
     }
   })();
 
