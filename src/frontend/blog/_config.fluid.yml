@@ -138,6 +138,10 @@ navbar:
     - key: links
       link: /links/
       icon: iconfont icon-link-fill
+    - key: rss
+      link: /atom.xml
+      icon: iconfont icon-rss-fill
+      name: 订阅
     - key: about
       link: /about/
       icon: iconfont icon-user-fill
