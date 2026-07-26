@@ -1,0 +1,64 @@
+# .github/workflows/deploy.yml
+#
+# 触发条件：
+#   - 推送包含博客源文件的 commit 到仓库（无论从本地还是服务器推送）
+#   - 手动触发（Actions 页面 → Run workflow）
+#
+# 做什么：
+#   1. 拉取源码 → 2. 装依赖 → 3. hexo generate → 4. 推送到 main 分支
+#   最终 main 分支上的静态文件由 GitHub Pages 自动提供服务
+#
+# 与本地 hexo deploy 兼容：
+#   本 workflow 将构建产物推到 main 分支，与 hexo-deployer-git 行为一致。
+#   无论哪种方式部署，都是往 main 分支推送静态文件，不会出现冲突。
+#
+name: Deploy Blog to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master           # 主开发分支（你的日常开发分支）
+    paths:
+      - 'src/frontend/blog/source/**'      # 文章、页面、CSS、JS 变更
+      - 'src/frontend/blog/_config*.yml'   # Hexo / Fluid 配置变更
+      - 'src/frontend/blog/scripts/**'     # 自定义脚本变更
+      - 'src/frontend/blog/package.json'   # 依赖变更
+  workflow_dispatch:                        # 允许手动触发
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: src/frontend/blog/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: src/frontend/blog
+        run: npm ci
+
+      - name: Setup Environment Variables
+        working-directory: src/frontend/blog
+        run: |
+          # 为 Hexo 脚本（如 steam-env.js）提供环境变量
+          echo "STEAM_API_KEY=${{ secrets.STEAM_API_KEY }}" >> .env
+
+      - name: Generate Static Files
+        working-directory: src/frontend/blog
+        run: npx hexo generate
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: src/frontend/blog/public
+          publish_branch: main           # 推到 main 分支（与本地 hexo deploy 目标一致）
+          force_orphan: true             # 每次用单次 commit 覆写，保持分支干净
+          commit_message: 'deploy: ${{ github.event.head_commit.message }} [skip ci]'
