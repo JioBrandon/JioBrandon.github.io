@@ -1,0 +1,8 @@
+2026-07-29 23:37:32 +08:00: [git] push 失败 (exit 1): To https://github.com/JioBrandon/JioBrandon.github.io.git
+2026-07-29 23:37:32 +08:00:  ! [rejected]        master -> master (non-fast-forward)
+2026-07-29 23:37:32 +08:00: error: failed to push some refs to 'https://github.com/JioBrandon/JioBrandon.github.io.git'
+2026-07-29 23:37:32 +08:00: hint: Updates were rejected because the tip of your current branch is behind
+2026-07-29 23:37:32 +08:00: hint: its remote counterpart. If you want to integrate the remote changes,
+2026-07-29 23:37:32 +08:00: hint: use 'git pull' before pushing again.
+2026-07-29 23:37:32 +08:00: hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2026-07-29 23:37:32 +08:00: 
