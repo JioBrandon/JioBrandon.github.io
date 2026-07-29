@@ -140,6 +140,14 @@ function triggerBuild() {
   pending = false;
 
   console.log('[build] 开始 hexo generate ...');
+
+  // 清除 Hexo 数据库缓存，确保所有变更（标签、置顶等）被重新处理
+  const dbPath = path.join(BLOG_DIR, 'db.json');
+  if (fs.existsSync(dbPath)) {
+    fs.unlinkSync(dbPath);
+    console.log('[build] 已清除 db.json 缓存');
+  }
+
   const start = Date.now();
   const child = spawn('npx', ['hexo', 'generate'], {
     cwd: BLOG_DIR,
