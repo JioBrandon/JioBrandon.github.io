@@ -1,0 +1,898 @@
+
+
+<!DOCTYPE html>
+<html class="jio-post-page" lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/avatar.jpg">
+  <link rel="icon" href="/assets/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#3B82F6">
+  <meta name="author" content="Jio_Brandon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、概念在不更新权重的情况下，与大模型交互，引导大模型输出我们想要的结果。 二、提示词工程的原则清晰的指令详细的描述当我们进行模型的提问时，不要描述的太笼统，而是尽量多的提供重要的详细信息或上下文。  eg: 不要直接说，”帮我写一封情书”；而是说：”用一些温柔的话语写一封情书，来表达我对你的仰慕和思念。最后，我要求书写字体数要不低于 500 个字”。  让模型充当某个角色当我们使用大模型时，可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prompt Engineering 提示词工程">
+<meta property="og:url" content="https://jiobrandon.github.io/2026/05/24/new-post-1779613325149/index.html">
+<meta property="og:site_name" content="Welcome Jio&#39;s Blog (*＾ワ＾*)">
+<meta property="og:description" content="一、概念在不更新权重的情况下，与大模型交互，引导大模型输出我们想要的结果。 二、提示词工程的原则清晰的指令详细的描述当我们进行模型的提问时，不要描述的太笼统，而是尽量多的提供重要的详细信息或上下文。  eg: 不要直接说，”帮我写一封情书”；而是说：”用一些温柔的话语写一封情书，来表达我对你的仰慕和思念。最后，我要求书写字体数要不低于 500 个字”。  让模型充当某个角色当我们使用大模型时，可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-24T09:02:05.000Z">
+<meta property="article:modified_time" content="2026-07-29T15:43:22.660Z">
+<meta property="article:author" content="Jio_Brandon">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="Prompt Engineering">
+<meta property="article:tag" content="提示词工程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Prompt Engineering 提示词工程 - Welcome Jio&#39;s Blog (*＾ワ＾*)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/admin.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jiobrandon.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#3B82F6","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Welcome Jio's Blog (*＾ワ＾*)" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jio&#39;s Blog (*＾ワ＾*)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss-fill"></i>
+                <span>订阅</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item" id="dog-btn"><a class="nav-link" target="_blank" rel="noopener" href="https://www.bilibili.com/toy/Dagou-Tap/index.html" aria-label="Dog"><img src="/assets/Dog.png" srcset="/img/loading.gif" lazyload alt="Dog" class="nav-dog-icon"></a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/links/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-link-fill"></i>
+                  <span>友链</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/atom.xml" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-rss-fill"></i>
+                  <span>订阅</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/assets/upload-1779293926748-a021fe77.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Prompt Engineering 提示词工程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-24 17:02" pubdate>
+          2026年5月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <nav class="jio-breadcrumb" aria-label="breadcrumb"><a class="jio-breadcrumb-link" href="/"><i class="iconfont icon-home-fill"></i>首页</a><span class="jio-breadcrumb-sep">›</span><a class="jio-breadcrumb-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a><span class="jio-breadcrumb-sep">›</span><span class="jio-breadcrumb-current">Prompt Engineering 提示词工程</span></nav><article class="post-content mx-auto">
+            <h1 id="seo-header">Prompt Engineering 提示词工程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h1><p><strong>在不更新权重的情况下，与大模型交互，引导大模型输出我们想要的结果。</strong></p>
+<h1 id="二、提示词工程的原则"><a href="#二、提示词工程的原则" class="headerlink" title="二、提示词工程的原则"></a>二、提示词工程的原则</h1><h2 id="清晰的指令"><a href="#清晰的指令" class="headerlink" title="清晰的指令"></a>清晰的指令</h2><h3 id="详细的描述"><a href="#详细的描述" class="headerlink" title="详细的描述"></a>详细的描述</h3><p>当我们进行模型的提问时，不要描述的太笼统，而是尽量多的提供重要的详细信息或上下文。</p>
+<blockquote>
+<p>eg: 不要直接说，”帮我写一封情书”；而是说：”用一些温柔的话语写一封情书，来表达我对你的仰慕和思念。最后，我要求书写字体数要不低于 500 个字”。</p>
+</blockquote>
+<h3 id="让模型充当某个角色"><a href="#让模型充当某个角色" class="headerlink" title="让模型充当某个角色"></a>让模型充当某个角色</h3><p>当我们使用大模型时，可以让模型充当一个角色，这样模型会更专业更明确的对你的问题进行回复。</p>
+<blockquote>
+<p>eg：我需要你充当一个 AI 算法面试官的角色，要求你自主的对我进行 AI 面试过程中常考的面试题，你可以一次说一个问题，然后我回答完，你再出第二道题。</p>
+</blockquote>
+<h3 id="使用分隔符标明输入的不同部分"><a href="#使用分隔符标明输入的不同部分" class="headerlink" title="使用分隔符标明输入的不同部分"></a>使用分隔符标明输入的不同部分</h3><p>中括号、XML 标签、三引号等分隔符可以帮助划分要区别对待的文本，也可以帮助模型更好的理解文本内容。常用’’’’’’把内容框起来。</p>
+<blockquote>
+<p>eg：用 20 个字符总结由三引号分割的文本。”””在此插入文本”””。</p>
+</blockquote>
+<h3 id="对复杂任务指定清晰的步骤"><a href="#对复杂任务指定清晰的步骤" class="headerlink" title="对复杂任务指定清晰的步骤"></a>对复杂任务指定清晰的步骤</h3><p>对于可以拆分的任务可以尽量拆开，最好能为其指定一系列步骤，明确步骤可以让模型更容易实现它们。</p>
+<blockquote>
+<p>eg：利用下面分步情况来响应用户的输入。<br>步骤 1: “”””用户输入文本””””，用一句话总结这段文本，并加上前缀”Summary”。<br>步骤 2: 将步骤 1 中的摘要翻译成英语，并添加前缀”翻译：”。</p>
+</blockquote>
+<h3 id="few-shot-提供例子"><a href="#few-shot-提供例子" class="headerlink" title="few-shot 提供例子"></a>few-shot 提供例子</h3><p>先扔给大模型举例，然后让模型按照例子来输出。</p>
+<blockquote>
+<p>eg: 按照这句评论文本的格式：’””用户输入文本””‘，帮我创造新的样本。</p>
+</blockquote>
+<h3 id="指定输出长度"><a href="#指定输出长度" class="headerlink" title="指定输出长度"></a>指定输出长度</h3><p>可以要求模型生成给定目标长度的输出。目标输出长度可以根据单词、句子、段落、要点等的计数来指定。中文效果不明显，同时你给定的长度只是个大概, 多少个字这种肯定会不精准，但是像多少段这种效果相对较好。</p>
+<blockquote>
+<p>eg: 用三个段落、30 个字符概括由三引号分隔的文本。”””在此插入你的文本”””。</p>
+</blockquote>
+<h2 id="文本参考"><a href="#文本参考" class="headerlink" title="文本参考"></a>文本参考</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>为了降低大模型的幻觉。<br><strong>什么是幻觉？</strong></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>使用参考文本作答：通过提示词说明，让大模型参考给定内容回答。</p>
+<h2 id="复杂任务拆分为简单子任务"><a href="#复杂任务拆分为简单子任务" class="headerlink" title="复杂任务拆分为简单子任务"></a>复杂任务拆分为简单子任务</h2><h3 id="对用户-query-进行意图识别"><a href="#对用户-query-进行意图识别" class="headerlink" title="对用户 query 进行意图识别"></a>对用户 query 进行意图识别</h3><h3 id="处理长对话：总结或过滤信息"><a href="#处理长对话：总结或过滤信息" class="headerlink" title="处理长对话：总结或过滤信息"></a><strong>处理长对话：总结或过滤信息</strong></h3><ul>
+<li><strong>总结之前的对话记录。一旦输入的大小达到预定的阈值长度，模型就会自动把一部分内容进行总结。越近的对话压缩越少，越远的压缩越多。</strong></li>
+<li><strong>在整个对话过程中，让模型在背后不断地把对话内容进行总结。</strong></li>
+<li><strong>把过去的所有的问答存入到向量库，用户输入 query 去向量库检索到相关的问答，作为完整的上下文。</strong></li>
+</ul>
+<h3 id="分段总结长文本并递归构建完整摘要"><a href="#分段总结长文本并递归构建完整摘要" class="headerlink" title="分段总结长文本并递归构建完整摘要"></a>分段总结长文本并递归构建完整摘要</h3><h2 id="给模型“思考”的时间"><a href="#给模型“思考”的时间" class="headerlink" title="给模型“思考”的时间"></a>给模型“思考”的时间</h2><h3 id="思维链的概念"><a href="#思维链的概念" class="headerlink" title="思维链的概念"></a>思维链的概念</h3><p>思维链（Chain of Thought，CoT）是大模型的一种推理策略，指模型针对复杂问题，不直接输出答案，而是分步生成连贯的推理步骤，再推导出结果，以此提升逻辑、数学、多跳问答等复杂任务的推理能力。</p>
+<h3 id="思维链的使用位置"><a href="#思维链的使用位置" class="headerlink" title="思维链的使用位置"></a>思维链的使用位置</h3><p>在负责<strong>逻辑推理</strong>、<strong>数学推</strong>理以及<strong>代码生成</strong>的时候使用思维链。</p>
+<h3 id="思维链的使用方式"><a href="#思维链的使用方式" class="headerlink" title="思维链的使用方式"></a>思维链的使用方式</h3><ul>
+<li><strong>在提示词中加入“你不要直接给出结果，需要给出整个思考的过程。”，“需要你一步一步思考”****；</strong></li>
+</ul>
+<blockquote>
+<p><strong>问题</strong>：如果一个人每天喝 10 升水，这对健康有益吗？<strong>让我们一步一步地思考</strong>。<br><strong>回答</strong>：正常成年人每天建议饮水量约为 2–3 升。10 升远超肾脏处理能力，可能导致水中毒（低钠血症），出现头痛、恶心甚至昏迷。因此，每天喝 10 升水对健康有害。答案：不有益。</p>
+</blockquote>
+<ul>
+<li><strong>在提示词中给出思维链的例子，让大模型参考例子输出结果</strong><strong>。</strong></li>
+</ul>
+<blockquote>
+<p><strong>Q</strong>: 莉莉有 10 支铅笔。她借给朋友 3 支，又买了 5 支新铅笔。她现在有多少支铅笔？<br><strong>A</strong>: 莉莉一开始有 10 支铅笔。她借出 3 支后，剩下 10 - 3 &#x3D; 7 支。然后她又买了 5 支，所以现在有 7 + 5 &#x3D; 12 支。答案是 12。</p>
+</blockquote>
+<p><strong>Q</strong>: 汤姆存了 20 元，花了 8 元买书，又收到 10 元零花钱。他现在有多少钱？<br><strong>A</strong>: 汤姆最初有 20 元。花掉 8 元后，剩下 20 - 8 &#x3D; 12 元。加上 10 元零花钱，总共 12 + 10 &#x3D; 22 元。答案是 22。</p>
+<p><strong>Q</strong>: 艾米有 5 个苹果，她吃了 2 个，又买了 4 个。她现在有多少个苹果？<br><strong>A</strong>: [?]<br>模型会模仿前面的推理格式，输出：</p>
+<blockquote>
+<p>艾米一开始有 5 个苹果。她吃了 2 个，剩下 5 - 2 &#x3D; 3 个。然后她又买了 4 个，所以现在有 3 + 4 &#x3D; 7 个。答案是 7。</p>
+</blockquote>
+<h3 id="大模型具备思维链能力的原因"><a href="#大模型具备思维链能力的原因" class="headerlink" title="大模型具备思维链能力的原因"></a>大模型具备思维链能力的原因</h3><p>模型在思维链数据上做了微调（指令，思维链，输出）。</p>
+<h2 id="借助外部工具"><a href="#借助外部工具" class="headerlink" title="借助外部工具"></a>借助外部工具</h2><ul>
+<li>动态知识库(联网工具)</li>
+<li>静态知识库(RAG 系统)</li>
+<li>代码解释器</li>
+<li>调用外部 API</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/" class="category-chain-item">技术文档</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/tags/Prompt/" class="print-no-link">#Prompt</a>
+      
+        <a href="/tags/Prompt-Engineering/" class="print-no-link">#Prompt Engineering</a>
+      
+        <a href="/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/" class="print-no-link">#提示词工程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Prompt Engineering 提示词工程</div>
+      <div>https://jiobrandon.github.io/2026/05/24/new-post-1779613325149/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jio_Brandon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/07/26/new-post-1785065392673/" title="好吧，其实这只是一篇测试文章">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">好吧，其实这只是一篇测试文章</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/22/new-post-1779611443205/" title="Function Call &amp; MCP 协议">
+                        <span class="hidden-mobile">Function Call &amp; MCP 协议</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div style="line-height: 1.8;"> <div>&copy; 2017 - 2026  By <strong>Jio_Brandon</strong> ♥️ </div> <div style="color: #718096; font-size: 0.85rem;">LLM / Agent 开发探索 &amp; 游戏日常记录</div> <div style="color: #a0aec0; font-size: 0.75rem;"> Powered by <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color: #a0aec0;">Hexo</a> | 🎨 Theme by <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color: #a0aec0;">Fluid</a> </div> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="/js/admin.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

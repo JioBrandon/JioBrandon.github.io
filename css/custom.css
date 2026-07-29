@@ -1,0 +1,1689 @@
+/* 引入霞鹜文楷（LXGW WenKai）用于标题 */
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
+
+/* ============================================
+   Jio_Brandon 博客自定义样式
+   ============================================ */
+
+/* ----- 标题字体：霞鹜文楷 ----- */
+h1, h2, h3, h4, h5, h6,
+.index-header,
+.jio-bento-cell-title,
+.jio-section-header,
+.jio-featured-title,
+.about-card-title {
+  font-family: 'LXGW WenKai', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* ----- 首页 Loading 动画 -----
+   打开网页后先显示白色背景 + 流式文字，文字逐个出现再逐个消失，然后背景图淡入
+*/
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#loading-text {
+  font-family: 'Courier New', 'Noto Sans SC', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+/* 每个字符单独控制 */
+.loading-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.loading-char.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loading-char.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.loading-cursor {
+  display: none;
+}
+
+/* 首页 Banner 初始隐藏（由 JS 控制），loading 完成后淡入 */
+.header-inner {
+  transition: opacity 1s ease;
+}
+
+.header-inner.banner-visible {
+  opacity: 1 !important;
+}
+
+/* ----- 导航栏主题色覆盖 ----- */
+/* 所有页面：导航栏透明（无毛玻璃效果） */
+.navbar {
+  background-color: rgba(59, 130, 246, 0.08) !important;
+  box-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* 导航栏文字 - 添加文字阴影确保在任何背景上可读 */
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .nav-item .nav-link {
+  color: #ffffff !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-item .nav-link:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Dog 图标 - 与搜索/暗色切换按钮尺寸对齐，filter 将黑色图标转为白色 */
+.nav-dog-icon {
+  margin-left: 4px;
+  width: 17px;
+  height: 17px;
+  vertical-align: middle;
+  border-radius: 4px;
+  filter: brightness(0) invert(1);
+  transform: translateY(-1.5px);
+}
+
+/* 滚动到内容区后增强导航栏背景（首页通过 JS 添加 .scrolled） */
+.navbar.scrolled {
+  background-color: #3B82F6 !important;
+  box-shadow: 0 2px 16px rgba(59, 130, 246, 0.3);
+}
+
+/* ----- 首页 Banner 毛玻璃效果 ----- */
+.index-banner {
+  position: relative;
+}
+
+.index-banner .banner-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Banner 遮罩层 - 增强毛玻璃感 */
+.index-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(59, 130, 246, 0.15) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+/* 首页副标题打字机效果增强 */
+.index-slogan {
+  font-family: 'Courier New', 'Noto Sans SC', monospace !important;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Banner 区域 #subtitle 与 Loading 文字保持一致 */
+#subtitle {
+  font-family: 'Courier New', 'Noto Sans SC', monospace !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ----- 防止布局偏移：为滚动条预留空间（macOS 覆盖式滚动条不受影响） ----- */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* ----- 滚动条美化（默认透明，滚动/悬停时渐显） ----- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.4s ease;
+}
+
+/* 滚动条可见状态 */
+html.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0.6);
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #3B82F6;
+}
+
+html.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+/* 暗色模式滚动条 */
+[data-user-color-scheme="dark"] html.scrollbar-visible::-webkit-scrollbar-track,
+html[data-user-color-scheme="dark"].scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(44, 62, 80, 0.6);
+}
+
+[data-user-color-scheme="dark"] html.scrollbar-visible::-webkit-scrollbar-thumb,
+html[data-user-color-scheme="dark"].scrollbar-visible::-webkit-scrollbar-thumb {
+  background: #4a9eff;
+}
+
+/* Firefox 滚动条样式 */
+html {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+}
+
+html.scrollbar-visible {
+  scrollbar-color: #3B82F6 transparent;
+}
+
+/* ----- 内容区顶部间距缩减 ----- */
+/* 首页 Bento 布局下 #board 上边距由 .jio-home-page #board .container 提供；
+   非首页沿用 v2.0 的 1.2rem 上边距，避免内容紧贴 #board 上边缘 */
+#board {
+  padding-top: 0;
+  padding-bottom: 2rem;
+  /* 覆盖 Fluid 主题 #board 的重阴影：原值 0 17px 50px rgba(0,0,0,0.19) 过重 */
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+html:not(.jio-home-page) #board {
+  padding-top: 1.2rem;
+}
+
+/* 首页文章列表区域标题，与 Bento 卡片标题保持完全一致 */
+.jio-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3c4858;
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
+}
+
+.jio-section-header i {
+  color: var(--jio-primary);
+  font-size: 1.1rem;
+}
+
+.post-item {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
+}
+
+/* ----- 按钮和标签主题色 ----- */
+.tag-link,
+.category-link {
+  transition: all 0.3s ease;
+}
+
+.tag-link:hover,
+.category-link:hover {
+  background-color: #3B82F6 !important;
+  color: #ffffff !important;
+  border-color: #3B82F6 !important;
+}
+
+/* ----- 分页美化 ----- */
+.pagination .page-item.active .page-link {
+  background-color: #3B82F6;
+  border-color: #3B82F6;
+}
+
+.pagination .page-link:hover {
+  color: #3B82F6;
+}
+
+/* ----- 返回顶部按钮 ----- */
+.back-to-top {
+  background-color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
+  transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+  background-color: #2563EB !important;
+  border-color: #2563EB !important;
+  transform: translateY(-2px);
+}
+
+/* ----- 关于页面头像 ----- */
+.about-avatar {
+  border: none;
+  box-shadow: none;
+}
+
+/* ----- 代码块美化 ----- */
+pre {
+  border-radius: 8px;
+}
+
+/* ----- 链接高亮 ----- */
+a {
+  transition: color 0.2s ease;
+}
+
+.post-content a {
+  color: #3B82F6;
+  border-bottom: 1px dashed #3B82F6;
+}
+
+/* 个人标签卡片内的链接不受 post-content 样式影响 */
+.post-content .personal-tag-item,
+.post-content .personal-tag-item:hover {
+  color: #fff;
+  border-bottom: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.post-content a:hover {
+  color: #2563EB;
+  border-bottom-style: solid;
+}
+
+/* ----- 表格美化 ----- */
+.post-content table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-content table th {
+  background-color: #3B82F6;
+  color: #ffffff;
+}
+
+/* ----- 引用块美化 ----- */
+.post-content blockquote {
+  border-left: 4px solid #3B82F6;
+  background-color: rgba(59, 130, 246, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+/* ----- 个人标签页 ----- */
+.personal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.personal-tag-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 160px;
+  border-radius: 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+  overflow: hidden;
+  /* 默认蓝色渐变，可通过内联 style="background: ...; color: ..." 自定义 */
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.personal-tag-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.35);
+  color: #fff;
+  text-decoration: none;
+}
+
+.personal-tag-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* 图标图片：替换 emoji 显示在卡片顶部，比 emoji 更大 */
+img.personal-tag-icon-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  /* 确保 PNG 透明区域正常显示，无视 lazyload 的 object-fit: cover */
+  image-rendering: auto;
+  background: transparent !important;
+}
+
+.personal-tag-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.personal-tag-desc {
+  font-size: 0.75rem;
+  margin-top: 6px;
+  opacity: 0.9;
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* ----- 目录导航美化（左侧 TOC） ----- */
+.toc-body {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toc-body .toc-item.active > .toc-link {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+  border-left: 3px solid #3B82F6;
+}
+
+/* ============================================
+   关于页卡片式模块样式
+   ============================================ */
+
+/* 两栏网格布局 */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* 基本信息卡片横跨两列 */
+.about-grid #about-basic-info {
+  grid-column: 1 / -1;
+}
+
+/* 个人信息行在两栏卡片中也使用纵向排列 */
+.about-grid .about-card {
+  margin-bottom: 0;
+}
+
+.about-card {
+  background: #fff;
+  padding: 12px 24px 24px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.about-card:last-child {
+  margin-bottom: 0;
+}
+
+.about-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3B82F6;
+  margin: 0 0 16px 0 !important;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-card-title i {
+  font-size: 1.25rem;
+}
+
+.about-card-body {
+  color: #3c4858;
+}
+
+/* 基本信息行 */
+.about-info-row {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.about-info-row:last-child {
+  border-bottom: none;
+}
+
+.about-info-label {
+  width: 80px;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.about-info-value {
+  flex: 1;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* 关于页中的个人标签 */
+.about-card .personal-tags {
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.about-card .personal-tag-item {
+  width: 170px;
+  height: 140px;
+}
+
+/* 暗色模式 */
+[data-user-color-scheme="dark"] .about-card {
+  background: #252d38;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .about-card:hover {
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
+}
+
+[data-user-color-scheme="dark"] .about-info-row {
+  border-bottom-color: #364151;
+}
+
+[data-user-color-scheme="dark"] .about-info-label {
+  color: #a7a9ad;
+}
+
+[data-user-color-scheme="dark"] .about-info-value {
+  color: #c4c6c9;
+}
+
+/* 暗色模式下个人标签卡片：明日方舟深色渐变会融进卡片背景，调亮并加边框 */
+[data-user-color-scheme="dark"] .personal-tag-item[href*="明日方舟"] {
+  background: linear-gradient(135deg, #475569 0%, #1e293b 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ----- 响应式优化 ----- */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid #about-basic-info {
+    grid-column: 1;
+  }
+
+  .index-slogan {
+    font-size: 1.5rem !important;
+    letter-spacing: 0.08em;
+  }
+
+  .navbar {
+    background-color: transparent !important;
+  }
+
+  .navbar.scrolled {
+    background-color: rgba(59, 130, 246, 0.98) !important;
+  }
+}
+
+/* ============================================
+   关于页 Steam 游戏库 & 番剧列表 样式
+   ============================================ */
+
+/* --- Steam 游戏列表（行列表，固定高度滚动） --- */
+.jio-steam-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.jio-steam-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.jio-steam-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.jio-steam-list::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.25);
+  border-radius: 2px;
+}
+
+.jio-steam-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.jio-steam-row:last-child {
+  border-bottom: none;
+}
+
+.jio-steam-row:hover {
+  background: rgba(59, 130, 246, 0.06);
+  text-decoration: none;
+}
+
+.jio-steam-thumb {
+  width: 90px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.jio-steam-name {
+  flex: 1;
+  font-size: 0.82rem;
+  color: #3c4858;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.jio-steam-row:hover .jio-steam-name {
+  color: #3B82F6;
+}
+
+.jio-steam-hours {
+  font-size: 0.72rem;
+  color: #718096;
+  flex-shrink: 0;
+  background: #f0f4ff;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* --- 音乐盒卡片：限制文字溢出，防止长歌名撑宽卡片 --- */
+#about-music.about-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+#about-music .aplayer {
+  max-width: 100%;
+}
+
+#about-music .aplayer-list,
+#about-music .aplayer-list ol,
+#about-music .aplayer-list ol li {
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- 番剧列表：限制文字溢出 --- */
+#about-anime.about-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* --- 番剧列表（紧凑封面网格，可由 JS 动态设定高度） --- */
+.jio-bangumi-list {
+  max-height: 320px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.jio-bangumi-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.jio-bangumi-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.jio-bangumi-list::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.25);
+  border-radius: 2px;
+}
+
+.jio-bangumi-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.jio-bangumi-item:hover {
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.jio-bangumi-cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #eee;
+  display: block;
+}
+
+.jio-bangumi-name {
+  font-size: 0.68rem;
+  color: #3c4858;
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.jio-bangumi-score {
+  font-size: 0.62rem;
+  color: #f5a623;
+  margin-top: 1px;
+}
+
+/* --- Steam / Bangumi 暗色模式 --- */
+[data-user-color-scheme="dark"] .jio-steam-row {
+  border-bottom-color: #364151;
+}
+
+[data-user-color-scheme="dark"] .jio-steam-row:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+[data-user-color-scheme="dark"] .jio-steam-name {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-steam-row:hover .jio-steam-name {
+  color: #4a9eff;
+}
+
+[data-user-color-scheme="dark"] .jio-steam-hours {
+  background: #364151;
+  color: #a7a9ad;
+}
+
+[data-user-color-scheme="dark"] .jio-steam-thumb {
+  background: #364151;
+}
+
+[data-user-color-scheme="dark"] .jio-bangumi-cover {
+  background: #364151;
+}
+
+[data-user-color-scheme="dark"] .jio-bangumi-name {
+  color: #c4c6c9;
+}
+
+/* ============================================
+   v2.1 设计系统
+   ============================================ */
+
+:root {
+  /* 主色：降低饱和度的蓝 */
+  --jio-primary: #3B82F6;
+  --jio-primary-dark: #2563EB;
+  --jio-primary-light: #60A5FA;
+  /* 辅助色：标签 / 分类 / 强调 / 友链 */
+  --jio-tag: #8B5CF6;
+  --jio-category: #10B981;
+  --jio-accent: #F59E0B;
+  --jio-link: #06B6D4;
+  /* 已读链接色 */
+  --jio-visited: #8B5CF6;
+  /* 正文阅读宽度 */
+  --jio-post-width: 1230px;
+}
+
+/* ============================================
+   v2.1 Bento 首页区域
+   ============================================ */
+.jio-bento-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 150px 16px 16px;
+  box-sizing: border-box;
+}
+
+.jio-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* 通用格子卡片 */
+.jio-bento-cell {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.jio-bento-cell:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10);
+  transform: translateY(-2px);
+}
+
+.jio-bento-cell-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3c4858;
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jio-bento-cell-title i {
+  color: var(--jio-primary);
+}
+
+.jio-bento-cell-more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--jio-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.jio-bento-cell-more:hover {
+  color: var(--jio-primary-dark);
+  text-decoration: none;
+}
+
+/* --- 格子位置分配（4 列网格） --- */
+/* 精选文章：左上 3 列 x 2 行 */
+.jio-bento-featured {
+  grid-column: 1 / 4;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* 关于我：右上 */
+.jio-bento-about {
+  grid-column: 4 / 5;
+  grid-row: 1 / 2;
+  text-align: center;
+}
+
+/* 热门标签：右中 */
+.jio-bento-tags {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+}
+
+/* 最新文章：左下 2 列 */
+.jio-bento-latest {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 友链 */
+.jio-bento-links {
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 文章分类（替换原 RSS 卡片） */
+.jio-bento-categories {
+  grid-column: 4 / 5;
+  grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 底部三个卡片的 "更多" 按钮对齐到卡片底部 */
+.jio-bento-latest .jio-bento-cell-more,
+.jio-bento-links .jio-bento-cell-more,
+.jio-bento-categories .jio-bento-cell-more {
+  margin-top: auto;
+}
+
+/* --- 精选文章 --- */
+.jio-featured-cover {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 200px;
+  background: linear-gradient(135deg, var(--jio-primary) 0%, var(--jio-primary-dark) 100%);
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.jio-featured-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--jio-accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.08em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.jio-featured-body {
+  padding: 18px 20px 20px;
+}
+
+.jio-featured-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 10px 0;
+}
+
+.jio-featured-title a {
+  color: #1a202c;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.jio-featured-title a:hover {
+  color: var(--jio-primary);
+}
+
+.jio-featured-excerpt {
+  font-size: 0.92rem;
+  color: #718096;
+  line-height: 1.65;
+  margin: 0 0 14px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jio-featured-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: #a0aec0;
+}
+
+.jio-featured-cat {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--jio-category);
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- 关于我 --- */
+.jio-bento-about-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 4px auto 10px;
+  display: block;
+  border: 3px solid rgba(59, 130, 246, 0.15);
+}
+
+.jio-bento-about-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.jio-bento-about-intro {
+  font-size: 0.75rem;
+  color: #718096;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.jio-bento-about-socials {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.jio-bento-about-socials a {
+  color: #718096;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.jio-bento-about-socials a:hover {
+  color: var(--jio-primary);
+  transform: translateY(-2px);
+}
+
+.jio-bento-about-more {
+  font-size: 0.75rem;
+  color: var(--jio-primary);
+  text-decoration: none;
+}
+
+.jio-bento-about-more:hover {
+  color: var(--jio-primary-dark);
+  text-decoration: none;
+}
+
+/* --- 最新文章 --- */
+.jio-bento-latest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.jio-bento-latest-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 6px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.jio-bento-latest-item a:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.jio-bento-latest-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  color: #3c4858;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jio-bento-latest-item a:hover .jio-bento-latest-title {
+  color: var(--jio-primary);
+}
+
+.jio-bento-latest-date {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: #a0aec0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 热门标签 --- */
+.jio-bento-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.jio-bento-tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--jio-tag);
+  font-size: 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.jio-bento-tag-item:hover {
+  background: var(--jio-tag);
+  color: #fff;
+  text-decoration: none;
+}
+
+.jio-bento-tag-count {
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+/* --- 友链 --- */
+.jio-bento-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jio-bento-link-item {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.jio-bento-link-item:hover {
+  background: rgba(6, 182, 212, 0.08);
+  text-decoration: none;
+}
+
+.jio-bento-link-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3c4858;
+}
+
+.jio-bento-link-item:hover .jio-bento-link-title {
+  color: var(--jio-link);
+}
+
+.jio-bento-link-intro {
+  font-size: 0.68rem;
+  color: #a0aec0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- RSS 订阅 --- */
+/* 文章分类列表 */
+.jio-bento-cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.jio-bento-cat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.jio-bento-cat-item:hover {
+  background: rgba(59, 130, 246, 0.06);
+  text-decoration: none;
+}
+
+.jio-bento-cat-name {
+  font-size: 0.82rem;
+  color: #3c4858;
+  font-weight: 500;
+}
+
+.jio-bento-cat-count {
+  font-size: 0.7rem;
+  color: #a0aec0;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.jio-bento-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #a0aec0;
+  font-size: 0.85rem;
+}
+
+/* --- Bento 响应式：移动端全部堆叠单列 --- */
+@media (max-width: 900px) {
+  .jio-bento-wrap {
+    min-height: auto;
+    padding: 64px 12px 24px;
+  }
+
+  .jio-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .jio-bento-featured,
+  .jio-bento-about,
+  .jio-bento-latest,
+  .jio-bento-tags,
+  .jio-bento-links,
+  .jio-bento-categories {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .jio-featured-cover {
+    min-height: 160px;
+  }
+}
+
+/* --- Bento 暗色模式 --- */
+[data-user-color-scheme="dark"] .jio-bento-cell {
+  background: #252d38;
+  border-color: #364151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cell-title {
+  color: #c4c6c9;
+  border-bottom-color: rgba(96, 165, 250, 0.2);
+}
+
+[data-user-color-scheme="dark"] .jio-featured-title a {
+  color: #e2e8f0;
+}
+
+[data-user-color-scheme="dark"] .jio-featured-excerpt,
+[data-user-color-scheme="dark"] .jio-bento-about-intro,
+[data-user-color-scheme="dark"] .jio-bento-link-intro {
+  color: #a7a9ad;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-about-name,
+[data-user-color-scheme="dark"] .jio-bento-latest-title,
+[data-user-color-scheme="dark"] .jio-bento-link-title {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-latest-item a:hover {
+  background: rgba(96, 165, 250, 0.12);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-tag-item {
+  background: rgba(139, 92, 246, 0.18);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-tag-item:hover {
+  background: var(--jio-tag);
+  color: #fff;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-link-item:hover {
+  background: rgba(6, 182, 212, 0.15);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-name {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-count {
+  color: #a7a9ad;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-user-color-scheme="dark"] .jio-bento-cat-item:hover {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+/* v2.1 文章卡片统一：左文右图，图片贴合卡片右侧圆角，撑满卡片高度 */
+@media (min-width: 768px) {
+  .index-card {
+    flex-direction: row-reverse;
+  }
+  .index-img {
+    padding-right: 0;
+  }
+  .index-img a {
+    display: block;
+    height: 100%;
+  }
+  .index-img img {
+    height: 100%;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+.index-card {
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  min-height: 10rem; /* 与有图卡片的封面图高度一致，统一所有卡片高度 */
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.index-card:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10) !important;
+  transform: translateY(-2px);
+}
+
+[data-user-color-scheme="dark"] .index-card {
+  background: #252d38;
+  border-color: #364151;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .index-card:hover {
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+}
+
+[data-user-color-scheme="dark"] .index-excerpt {
+  color: #858b94;
+}
+
+/* 文章摘要：显示在标题+元信息下方，限2行 */
+.index-excerpt {
+  order: 1;
+  height: auto;               /* 覆盖 Fluid 的固定 3 行高度 */
+  font-size: 0.9rem;
+  color: #718096;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Fluid 主题在子级 div 上设了 line-clamp:3 + line-height:1.4rem，覆盖 */
+.index-excerpt > div {
+  line-height: inherit;
+  -webkit-line-clamp: 2;
+}
+
+/* 无封面卡片：摘要限宽 + 行数对齐 */
+.index-excerpt__noimg {
+  max-height: calc(0.9rem * 1.6 * 2 + 0.1rem);
+}
+
+@media (min-width: 768px) {
+  .index-excerpt__noimg {
+    max-width: 66.67%;  /* 与带封面卡片的 col-md-8 文字区域右边界对齐 */
+  }
+}
+
+/* 卡片文本区：增加上、下、左侧留白，右侧保持 Bootstrap 默认 15px */
+.index-info {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  padding-left: 50px;
+}
+
+/* ============================================
+   v2.1 字号层级
+   ============================================ */
+.index-header {
+  font-size: 1.5rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.post-metas {
+  font-size: 0.8rem;
+}
+
+/* ============================================
+   v2.1 正文阅读宽度
+   ============================================ */
+/* 文章页正文限宽 960px，保证阅读体验；
+   首页、分类页等列表容器不额外限宽，避免 Bento 下方出现大面积空白 */
+.post-content {
+  max-width: var(--jio-post-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 全站容器统一宽度：与 Bento 网格对齐
+   Bento 内容区 max-width 为 1200px，Bootstrap container 自带 15px 左右 padding，
+   因此容器设为 1230px，使内容实际宽度与首页 Bento 网格对齐 */
+.jio-home-page .container.nopadding-x-md,
+.jio-home-page #board .container,
+html:not(.jio-home-page) .container.nopadding-x-md,
+html:not(.jio-home-page) #board .container {
+  max-width: 1230px;
+}
+
+/* 文章页（post）：侧栏左右分离控制
+   - 左侧栏（分类导航/面包屑）：仅去内边距，独立于 TOC
+   - 右侧栏（TOC 目录）：动态偏移缩小正文与目录间距
+   当屏幕 > ~1845px 时，正文容器 max-width:1230px 不再扩展，
+   但 Bootstrap 网格列仍按比例拉宽 → 间隙 = 1/3*VW - 615px。
+   公式 min(0, -33.33vw + 630px) 动态抵消：
+   - 小屏（≤1850px）：min(0,正值)=0，不动
+   - 大屏（2560px）：min(0,-223px)= -223px，间隙缩至 ~15px */
+@media (min-width: 992px) {
+  /* 左侧栏：分类导航（面包屑） */
+  .jio-post-page .row > .side-col.col-lg-2:first-child {
+    padding-left: 0;
+  }
+
+  /* 右侧栏：TOC 目录 */
+  .jio-post-page .row > .side-col.col-lg-2:last-child {
+    padding-left: 0;
+    transform: translateX(min(0px, calc(-33.33vw + 630px)));
+  }
+}
+
+/* 首页文章列表大卡片：与 Bento 单元格保持一致的圆角、边框、阴影与内边距 */
+.jio-home-page #board .container {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: none;
+  padding: 20px;
+}
+
+.jio-home-page #board .col-12.col-md-10 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* ============================================
+   v2.1 链接 visited 状态色
+   ============================================ */
+.post-content a:visited {
+  color: var(--jio-visited);
+  border-bottom-color: var(--jio-visited);
+}
+
+.index-header a:visited {
+  color: #94a3b8;
+}
+
+.jio-bento-latest-item a:visited .jio-bento-latest-title {
+  color: #94a3b8;
+}
+
+/* ============================================
+   v2.1 面包屑导航
+   ============================================ */
+.jio-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: var(--jio-post-width);
+  margin: 0 auto 24px;
+  padding-left: 120px;
+  padding-top: 24px;
+  padding-bottom: 20px;
+  font-size: 0.82rem;
+}
+
+.jio-breadcrumb-link {
+  color: #718096;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.jio-breadcrumb-link:hover {
+  color: var(--jio-primary);
+  text-decoration: none;
+}
+
+.jio-breadcrumb-sep {
+  color: #cbd5e0;
+}
+
+.jio-breadcrumb-current {
+  color: #3c4858;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+[data-user-color-scheme="dark"] .jio-breadcrumb-current {
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .jio-breadcrumb-sep {
+  color: #4a5568;
+}
+
+/* ============================================
+   v2.1 分页组件：当前页高亮 + 上下页按钮
+   ============================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 32px 0 8px;
+}
+
+.pagination .page-number,
+.pagination .extend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  color: #3c4858;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-number:hover,
+.pagination .extend:hover {
+  border-color: var(--jio-primary);
+  color: var(--jio-primary);
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.pagination .page-number.current {
+  background: var(--jio-primary);
+  border-color: var(--jio-primary);
+  color: #fff;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.pagination .space {
+  color: #a0aec0;
+  letter-spacing: 2px;
+}
+
+[data-user-color-scheme="dark"] .pagination .page-number,
+[data-user-color-scheme="dark"] .pagination .extend {
+  background: #252d38;
+  border-color: #364151;
+  color: #c4c6c9;
+}
+
+[data-user-color-scheme="dark"] .pagination .page-number.current {
+  background: var(--jio-primary);
+  border-color: var(--jio-primary);
+  color: #fff;
+}
+
+/* 暗色模式：首页文章列表大卡片
+   .jio-home-page 与 data-user-color-scheme 均位于 <html> 同一元素上，
+   必须用并列选择器（无空格），不可用后代组合符（会无法匹配） */
+html[data-user-color-scheme="dark"].jio-home-page #board .container {
+  background: #252d38;
+  border-color: #364151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-user-color-scheme="dark"] .jio-section-header {
+  color: #c4c6c9;
+  border-bottom-color: rgba(59, 130, 246, 0.2);
+}
+
+/* 暗色模式：音乐播放器 APlayer（APlayer 原生无暗色模式，全量覆盖） */
+[data-user-color-scheme="dark"] .aplayer {
+  background: #252d38;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+/* 分隔线 */
+[data-user-color-scheme="dark"] .aplayer.aplayer-withlist .aplayer-info {
+  border-bottom-color: #364151;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info {
+  border-top-color: #364151;
+}
+/* 歌曲标题 & 作者 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  color: #d0d2d5;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  color: #858b94;
+}
+/* 进度条：轨道底层 → 深色 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
+  background: #3d4754;
+}
+/* 进度条：已缓冲部分（原生 #aaa → 深色） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded {
+  background: #4b5565;
+}
+/* 时间 & 图标 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  color: #858b94;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
+  fill: #858b94;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon:hover path {
+  fill: #b0b4bc;
+}
+/* 音量条：轨道底层（原生 #aaa → 深色） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
+  background: #3d4754;
+}
+/* 播放列表 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-list {
+  background: #1e2630;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li {
+  border-top-color: #364151;
+  color: #b0b4bc;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li:hover {
+  background: #2a3340;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li.aplayer-list-light {
+  background: #2a3340;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li .aplayer-list-index,
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol li .aplayer-list-author {
+  color: #858b94;
+}
+/* 播放列表滚动条 */
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb {
+  background-color: #4b5565;
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb:hover {
+  background-color: #5d6a7c;
+}
+/* SVG 图标填充 */
+[data-user-color-scheme="dark"] .aplayer svg circle,
+[data-user-color-scheme="dark"] .aplayer svg path {
+  fill: #d0d2d5;
+}
+/* 歌词区域上下渐变遮罩（原生用 #fff 渐变，暗色下会露白条） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-lrc:before {
+  background: linear-gradient(180deg, #252d38 0, rgba(37, 45, 56, 0));
+}
+[data-user-color-scheme="dark"] .aplayer .aplayer-lrc:after {
+  background: linear-gradient(180deg, rgba(37, 45, 56, 0) 0, rgba(37, 45, 56, 0.8));
+}
+/* 迷你模式切换按钮（原生 #e6e6e6） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-miniswitcher {
+  background: #364151;
+}
+/* Toast 通知（原生 #f4f4f5） */
+[data-user-color-scheme="dark"] .aplayer .aplayer-notice {
+  background-color: #3d4754;
+  color: #b0b4bc;
+}
+
+/* ============================================
+   v2.1 统一卡片圆角与阴影（更克制）
+   ============================================ */
+.about-card {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.about-card:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.10);
+  transform: translateY(-2px);
+}
